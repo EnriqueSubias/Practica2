@@ -2,3 +2,4 @@
 
 print("Greedy Iterative")
 
+# Coste minimo O(n^2)
