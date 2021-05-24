@@ -1,2 +1,4 @@
 test:
-	./backtracking_recursive.py
+	clear
+	./backtracking_recursive.py aqueductes/sample-1.in
+	
