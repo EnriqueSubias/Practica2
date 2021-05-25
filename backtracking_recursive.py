@@ -14,20 +14,27 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     #coste = [0 for i in range(5)]
     # Calculo de costes con llamadas recursivas
     #for (int i = 1; i < n; i++): # n - 1 vueltas
-    if n > 1:
+    #n_tramos = n - 1
+    if n > 2:
         i = 1
-        while i < n:
+        while i < n-1:
             
             a = n - i # (a + 1) priemras posiciones
-            b = n - a # (b) ultimas posiciones /// no hace falta calcularlo
+            b = n - a +  1 # (b) ultimas posiciones /// no hace falta calcularlo
             # Coger el rango de array correcto para pasarlo a las funciones
             #:1 o :-1
+            print("\n")
             print(" - A", a, "B",b, "N", n)
-            pos_x_a = pos_x[:a+1] # Array con las posiciones desde la primera hasta la (a + 1)
-            pos_y_a = pos_y[:a+1]
+            
+            pos_x_a = pos_x[:a] # Array con las posiciones desde la primera hasta la (a + 1)
+            pos_y_a = pos_y[:a]
+            
+            print(u"\u001b[36m", pos_x_a ,u"\u001b[0m")
 
-            pos_x_b = pos_x[a:] # Array con las posiciones desde la a hasta la final
-            pos_y_b = pos_y[a:]
+
+            pos_x_b = pos_x[a-1:] # Array con las posiciones desde la a hasta la final
+            pos_y_b = pos_y[a-1:]
+            print(u"\u001b[36m" , pos_x_b , u"\u001b[0m")
             #llamada recursiva
             # Antes de sumar los resultados de las funciones los comprobamosm, y paramos el bucle si es necesario
             # Si las funciones nos retornan imposible, retornar imposible, para indicar que esa rama no es la buena y asi se acaba la llama recursiva lo antes posible, no hacemos mas llamadas de las siguientes vueltas del bucle
@@ -35,18 +42,20 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             
             aux_a = rec_func(a, pos_x_a, pos_y_a)
             aux_b = rec_func(b, pos_x_b, pos_y_b)
-         
+            
 
                 #if aux_a && aux_b == "impossible"
                 #    return "aux_a"
             
-            
+        
             #print(aux_a)
             #print(aux_b)
+            pilar_contado_por_dos = (h_max - pos_y[a - 1] ) * alpha
+
             if aux_a == "impossible" or aux_b == "impossible":
                 coste[i]= "impossible" 
             else:
-                coste[i] = aux_a + aux_b
+                coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
             #print(coste[i])
             
             #coste[i] = rec_func(a, pos_x_a, pos_y_a) + rec_func(b, pos_x_b, pos_y_b)
@@ -54,11 +63,13 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
 
     # Calculo de costes para un solo arco
     coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+    print(u"\u001b[35m", pos_x ,u"\u001b[0m")
     #coste[n] = 5
     #print(coste[n])
-    for i in coste: ## hacer en caso de que el min no pueda gestionar strings "imposible"
-        if coste[i] == "impossible":
-            return  "impossible"
+
+    #for i in coste: ## hacer en caso de que el min no pueda gestionar strings "imposible"
+     #   if coste[i] == "impossible":
+      #      return  "impossible"
     
     #for i in coste:
         #if coste[i] == 6460:
@@ -66,19 +77,25 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             ##print("OK")
         #print("IF bucle", coste[i])
     
-    print(coste)
+    print(" -- coste",coste)
     #return coste[n]
     #print("----Vuelta----")
-    return coste[min(coste)]
-
-
+    #return coste[min(coste)]
+    
+    # Minimo de los costes
+    result = coste[n]
+    for i in coste:
+        if coste[i] < result:
+            result = coste[i]
+     
+    return result
 
 
 def check_overlap_and_calculate_cost_multiple_arches():
     """Comprueba que todos los arcos posibles no interfieran con el terreno,
     funciona comprobando que los puntos no esten por encima del inicio de los arcos,
     ya que nunca habra puntos sin pilar, es suficiente con esta comprobacion.
-    Y si no se solapan los putnos con el aqueducto,
+    Y si no se solapan los putnos con el aqueducto, 
     calcula el coste del aquaducto con todos los arcos posibles"""
 
     result_columns = 0
@@ -143,7 +160,7 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
    
     #print(pos_x)
     #print(pos_y)
-
+    
     #print(n_points)
     #print(h_max, "max =",max(pos_x), pos_x[-1], center_y)
     #print("--------------------")
@@ -222,8 +239,13 @@ def read_terrain():
 if __name__ == "__main__":
 
     #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    f = open("aqueductes/sample-1.in", "r")
+    filename = "secret-06"
+
+    f = open("aqueductes/" + filename +".in", "r")
     valores = f.readline().split(" ")
+
+    s = open("aqueductes/" + filename + ".ans", "r")
+    comparar_resultado = s.readline()
 
     n_points = int(valores[0])
     h_max = int(valores[1])
@@ -238,10 +260,12 @@ if __name__ == "__main__":
             #result = [0, 0]
             #result = check_overlap_and_calculate_cost_multiple_arches()
             #result[1] = calculate_cost_one_arch()
-
-            result = rec_func(n_points-1, pos_x, pos_y)
+            
+            result = rec_func(n_points, pos_x, pos_y)
             result = int(result)
-            print("Result", result)
+            print(u"\n\u001b[33mResultado Calculado", result , u"\u001b[0m")
+            print(u"\u001b[32mResultado Correcto", comparar_resultado , u"\u001b[0m\n")
+            print(u"\u001b[36m" , pos_x , u"\u001b[0m")
         else:
             print("impossible")
     else:
