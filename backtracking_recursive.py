@@ -9,7 +9,7 @@ print(u"\u001b[36m\nBackTracking Recursivo\n\u001b[0m")
 
 # BackTracking Recursivo
 def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
-    #coste = [0] * (n+1)
+    #coste = [int(0)] * (n+1)
     coste = {}
     #coste = [0 for i in range(5)]
     # Calculo de costes con llamadas recursivas
@@ -17,7 +17,7 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     #n_tramos = n - 1
     if n > 2:
         i = 1
-        while i < n-1:
+        while i < n - 1:
             
             a = n - i # (a + 1) priemras posiciones
             b = n - a +  1 # (b) ultimas posiciones /// no hace falta calcularlo
@@ -32,8 +32,8 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             print(u"\u001b[36m", pos_x_a ,u"\u001b[0m")
 
 
-            pos_x_b = pos_x[a-1:] # Array con las posiciones desde la a hasta la final
-            pos_y_b = pos_y[a-1:]
+            pos_x_b = pos_x[a - 1:] # Array con las posiciones desde la a hasta la final
+            pos_y_b = pos_y[a - 1:]
             print(u"\u001b[36m" , pos_x_b , u"\u001b[0m")
             #llamada recursiva
             # Antes de sumar los resultados de las funciones los comprobamosm, y paramos el bucle si es necesario
@@ -53,19 +53,21 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             pilar_contado_por_dos = (h_max - pos_y[a - 1] ) * alpha
 
             if aux_a == "impossible" or aux_b == "impossible":
-                #coste[i]= "impossible" 
-                coste.append("impossible")
+                coste[i]= "impossible" 
+                #coste.append("impossible")
             else:
-                #coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
-                coste.append(aux_a + aux_b - pilar_contado_por_dos)
+                coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
+                print(coste[i],"=",aux_a, "+" ,aux_b ,"-",pilar_contado_por_dos)
+                #coste.append(aux_a + aux_b - pilar_contado_por_dos)
+                
             #print(coste[i])
             
             #coste[i] = rec_func(a, pos_x_a, pos_y_a) + rec_func(b, pos_x_b, pos_y_b)
             i += 1
 
     # Calculo de costes para un solo arco
-    #coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
-    coste.append(calculate_cost_one_arch(n, pos_x,  pos_y)) # dos puntos del terreno y la altura máxima
+    coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+    #coste.append(calculate_cost_one_arch(n, pos_x,  pos_y)) # dos puntos del terreno y la altura máxima
     print(u"\u001b[35m", pos_x ,u"\u001b[0m")
     #coste[n] = 5
     #print(coste[n])
@@ -80,13 +82,12 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             ##print("OK")
         #print("IF bucle", coste[i])
     
-    print(" -- coste",coste)
     #return coste[n]
     #print("----Vuelta----")
     #return coste[min(coste)]
     
     # Minimo de los costes , hay que ver como hacerlo
-    
+    print(" -- coste",coste)
 
     result = 999999999999999999
 
@@ -104,6 +105,19 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             if coste[k] < result:
                 print("+++++++++++++++++++++++++++++++++++", coste[k], "+++++++++++++++++++++++++++++++++++")
                 result = coste[k]
+    
+    """
+    # Minimo de los costes
+    result = coste[n]
+    for i in coste:
+        if coste[i] != "impossible":
+            if coste[i] < result:
+             result = coste[i]
+        else: 
+            coste[i]= "impossible"
+    #result = coste[min(coste)]"""
+
+    print(result)
 
     return result
 
@@ -192,13 +206,15 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
     point2[0] = float(pos_x[n_points - 1])
     point2[1] = center_y
 
-    for i in range(0, n_points - 1):
+    for i in range(0, n_points):
         if center_y < int(pos_y[i]):
             terrain_point[0] = int(pos_x[i])
             terrain_point[1] = int(pos_y[i])
             angle = calculate_angle(point1, point2, terrain_point, d_horizontal)
             if angle < 90:
                 return False
+            #else:
+                #seguir dando vueltas 
     return True
 
 def calculate_angle(point1, point2, terrain_point, distance_horizontal):
@@ -260,7 +276,7 @@ def read_terrain():
 if __name__ == "__main__":
 
     #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    filename = "secret-06"
+    filename = "secret-08"
     # secret-04
 
     f = open("aqueductes/" + filename +".in", "r")
