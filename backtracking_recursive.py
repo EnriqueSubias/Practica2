@@ -53,16 +53,19 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             pilar_contado_por_dos = (h_max - pos_y[a - 1] ) * alpha
 
             if aux_a == "impossible" or aux_b == "impossible":
-                coste[i]= "impossible" 
+                #coste[i]= "impossible" 
+                coste.append("impossible")
             else:
-                coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
+                #coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
+                coste.append(aux_a + aux_b - pilar_contado_por_dos)
             #print(coste[i])
             
             #coste[i] = rec_func(a, pos_x_a, pos_y_a) + rec_func(b, pos_x_b, pos_y_b)
             i += 1
 
     # Calculo de costes para un solo arco
-    coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+    #coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+    coste.append(calculate_cost_one_arch(n, pos_x,  pos_y)) # dos puntos del terreno y la altura máxima
     print(u"\u001b[35m", pos_x ,u"\u001b[0m")
     #coste[n] = 5
     #print(coste[n])
@@ -82,12 +85,26 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     #print("----Vuelta----")
     #return coste[min(coste)]
     
-    # Minimo de los costes
-    result = coste[n]
-    for i in coste:
-        if coste[i] < result:
-            result = coste[i]
-     
+    # Minimo de los costes , hay que ver como hacerlo
+    
+
+    result = 999999999999999999
+
+    all_impossible = True
+    for x in coste:
+        if coste[x] != "impossible":
+            all_impossible = False
+            break
+    
+    if all_impossible:
+        return "impossible"
+    
+    for k in coste:
+        if coste[k] != "impossible":
+            if coste[k] < result:
+                print("+++++++++++++++++++++++++++++++++++", coste[k], "+++++++++++++++++++++++++++++++++++")
+                result = coste[k]
+
     return result
 
 
@@ -153,9 +170,11 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
        si el angulo es mayor de 90 grados, el punto del terreno no se solapa con el
        aqueducto, pero si es menor de 90 grados, significa que si que interfiere."""
     terrain_point = [0, 0]
+    d_horizontal = pos_x[-1] - pos_x[0]
     #center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total, tenemos que calcular la mitad del ancho de donde vaya el arco
-    center_y = h_max - (pos_x[0] - pos_x[-1]) / 2
+    center_y = h_max - (d_horizontal / 2)
     
+
     #print("-------Puntos-------")
    
     #print(pos_x)
@@ -177,7 +196,7 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
         if center_y < int(pos_y[i]):
             terrain_point[0] = int(pos_x[i])
             terrain_point[1] = int(pos_y[i])
-            angle = calculate_angle(point1, point2, terrain_point, max(pos_x))
+            angle = calculate_angle(point1, point2, terrain_point, d_horizontal)
             if angle < 90:
                 return False
     return True
@@ -194,10 +213,12 @@ def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     
     angle = 0
 
+    #Distancia x e y del punto1 al punto del terreno
     distance1vector = [0, 0]
     distance1vector[0] = float(terrain_point[0] - point1[0])
     distance1vector[1] = float(terrain_point[1] - point1[1])
-
+    
+    #Distancia x e y del punto2 al punto del terreno
     distance2vector = [0, 0]
     distance2vector[0] = float(point2[0] - terrain_point[0])
     distance2vector[1] = float(terrain_point[1] - point2[1])
@@ -240,6 +261,7 @@ if __name__ == "__main__":
 
     #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
     filename = "secret-06"
+    # secret-04
 
     f = open("aqueductes/" + filename +".in", "r")
     valores = f.readline().split(" ")
@@ -262,9 +284,9 @@ if __name__ == "__main__":
             #result[1] = calculate_cost_one_arch()
             
             result = rec_func(n_points, pos_x, pos_y)
-            result = int(result)
+            #result = int(result)
             print(u"\n\u001b[33mResultado Calculado", result , u"\u001b[0m")
-            print(u"\u001b[32mResultado Correcto", comparar_resultado , u"\u001b[0m\n")
+            print(u"\u001b[32mResultado Correcto ", comparar_resultado , u"\u001b[0m\n")
             print(u"\u001b[36m" , pos_x , u"\u001b[0m")
         else:
             print("impossible")
