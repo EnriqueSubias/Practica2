@@ -5,7 +5,7 @@
 import math
 import sys
 
-print(u"\u001b[36m\nBackTracking Recursivo\n\u001b[0m")
+print(u"\u001b[36m\nRecursivo\n\u001b[0m")
 
 # BackTracking Recursivo
 def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta

@@ -1,14 +1,16 @@
 #! /usr/bin/env python3
+
 import math
 import sys
-print("Greedy Iterative")
+
+print(u"\u001b[36m\Greedy Iterativo\n\u001b[0m")
 
 # Coste minimo O(n^2)
 
 def greedy_iterative(n, pos_x, pos_y):
     i = 0
     coste_total = 0
-    x_menor_coste = 0
+    #x_menor_coste = 0
     # Array 0-4
     # i     0-3
     # x     i-4
@@ -162,7 +164,7 @@ def read_terrain():
 if __name__ == "__main__":
 
     #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    filename = "secret-28"
+    filename = "secret-10"
     # secret-06
     # secret-08
     # secret-12
