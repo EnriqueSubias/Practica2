@@ -151,7 +151,7 @@ def read_terrain():
 if __name__ == "__main__":
 
     #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    filename = "secret-23"
+    filename = "secret-28"
     # secret-06
     # secret-08
     # secret-12

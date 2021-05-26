@@ -1,12 +1,12 @@
-test br:
+test_backtracking_recursive:
 	clear
 	./backtracking_recursive.py
 
-test greedy_iterative:
+test_greedy_iterative:
 	clear
 	./greedy_iterative.py
 
-test gr:
+test_greedy_recursive:
 	clear
 	./greedy_recursive.py
 	
