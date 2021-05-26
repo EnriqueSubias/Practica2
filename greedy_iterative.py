@@ -30,11 +30,11 @@ def greedy_iterative(n, pos_x, pos_y):
                 x_menor_coste = x
                 menor_coste = aux
                 print("+++++++++++")
-        pilar_contado_por_dos = (h_max - pos_y[x] ) * alpha
+        pilar_contado_por_dos = (h_max - pos_y[x_menor_coste] ) * alpha
         if menor_coste != -1 and menor_coste != "impossible":
             coste_total += menor_coste - pilar_contado_por_dos # Restamos el coste de pilares duplicados
         i = x_menor_coste
-        print("menor coste", x_menor_coste)
+        print("Posición de arco", x_menor_coste)
         print("POS I: ",i)
         if menor_coste == -1:
             coste_total = "impossible"
@@ -42,6 +42,7 @@ def greedy_iterative(n, pos_x, pos_y):
 
     if menor_coste != -1 and menor_coste != "impossible":
         coste_total += pilar_contado_por_dos # Sumamos el último pilar
+        print("*****    +",pilar_contado_por_dos)
 
     return coste_total
 
@@ -49,7 +50,6 @@ def greedy_iterative(n, pos_x, pos_y):
 
 
 def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
-    #end -= 1
     if doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
         result_columns = 0
         result_columns = float(result_columns + (h_max - int(pos_y[start])))
@@ -107,11 +107,11 @@ def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     """Calcula el angulo de incidencia entre un punto del terreno y dos puntos
        en los pilares a la altura del centro de la semicircunferencia"""
 
-    print("-------Angulo-------")
-    print(point1[0], point1[1])
-    print(point2[0], point2[1])
-    print(terrain_point[0], terrain_point[1])
-    print("--------------------")
+    #print("-------Angulo-------")
+    #print(point1[0], point1[1])
+    #print(point2[0], point2[1])
+    #print(terrain_point[0], terrain_point[1])
+    #print("--------------------")
 
     angle = 0
 
@@ -162,13 +162,18 @@ def read_terrain():
 if __name__ == "__main__":
 
     #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    filename = "secret-03"
-    # secret-04
+    filename = "secret-28"
+    # secret-06
+    # secret-08
+    # secret-12
+    # secret-13
+    # secret-14
 
-    f = open("aqueductes/" + filename +".in", "r")
+
+    f = open("test-greedy/" + filename +".in", "r")
     valores = f.readline().split(" ")
 
-    s = open("aqueductes/" + filename + ".ans", "r")
+    s = open("test-greedy/" + filename + ".ans", "r")
     comparar_resultado = s.readline()
 
     n_points = int(valores[0])
