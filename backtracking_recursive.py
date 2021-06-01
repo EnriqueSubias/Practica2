@@ -7,8 +7,10 @@ import sys
 
 #comentado-print(u"\u001b[36m\nBackTracking Recursivo\n\u001b[0m")
 
+sys.setrecursionlimit(20000)
+solucion = 1
 # BackTracking Recursivo
-def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
+def rec_func1(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     #coste = [int(0)] * (n+1)
     coste = {}
     #coste = [0 for i in range(5)]
@@ -16,55 +18,59 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     #for (int i = 1; i < n; i++): # n - 1 vueltas
     #n_tramos = n - 1
     if n > 2:
-        i = 1
-        while i < n - 1:
+        i = n - 2
+        #while i < n - 1:
 
-            #print(n)
+        #print(n)
+        #i = int((n)/2)
+        #print (n)
+        #print (i)
+        #print("\n")
 
-            a = n - i # (a + 1) priemras posiciones
-            b = n - a +  1 # (b) ultimas posiciones /// no hace falta calcularlo
-            # Coger el rango de array correcto para pasarlo a las funciones
-            #:1 o :-1
-            #comentado-print("\n")
-            #comentado-print(" - A", a, "B",b, "N", n)
+        a = n - i # (a + 1) priemras posiciones
+        b = n - a +  1 # (b) ultimas posiciones /// no hace falta calcularlo
+        # Coger el rango de array correcto para pasarlo a las funciones
+        #:1 o :-1
+        #comentado-print("\n")
+        #comentado-print(" - A", a, "B",b, "N", n)
 
-            pos_x_a = pos_x[:a] # Array con las posiciones desde la primera hasta la (a + 1)
-            pos_y_a = pos_y[:a]
+        pos_x_a = pos_x[:a] # Array con las posiciones desde la primera hasta la (a + 1)
+        pos_y_a = pos_y[:a]
 
-            #comentado-print(u"\u001b[36m", pos_x_a ,u"\u001b[0m")
+        #comentado-print(u"\u001b[36m", pos_x_a ,u"\u001b[0m")
 
-            pos_x_b = pos_x[a - 1:] # Array con las posiciones desde la a hasta la final
-            pos_y_b = pos_y[a - 1:]
-            #comentado-print(u"\u001b[36m" , pos_x_b , u"\u001b[0m")
-            #llamada recursiva
-            # Antes de sumar los resultados de las funciones los comprobamosm, y paramos el bucle si es necesario
-            # Si las funciones nos retornan imposible, retornar imposible, para indicar que esa rama no es la buena y asi se acaba la llama recursiva lo antes posible, no hacemos mas llamadas de las siguientes vueltas del bucle
-
-
-            aux_a = rec_func(a, pos_x_a, pos_y_a)
-            aux_b = rec_func(b, pos_x_b, pos_y_b)
-
-
-                #if aux_a && aux_b == "impossible"
-                #    return "aux_a"
+        pos_x_b = pos_x[a - 1:] # Array con las posiciones desde la a hasta la final
+        pos_y_b = pos_y[a - 1:]
+        #comentado-print(u"\u001b[36m" , pos_x_b , u"\u001b[0m")
+        #llamada recursiva
+        # Antes de sumar los resultados de las funciones los comprobamosm, y paramos el bucle si es necesario
+        # Si las funciones nos retornan imposible, retornar imposible, para indicar que esa rama no es la buena y asi se acaba la llama recursiva lo antes posible, no hacemos mas llamadas de las siguientes vueltas del bucle
 
 
-            ##comentado-print(aux_a)
-            ##comentado-print(aux_b)
+        aux_a = rec_func(a, pos_x_a, pos_y_a)
+        aux_b = rec_func(b, pos_x_b, pos_y_b)
 
-            if aux_a == "impossible" or aux_b == "impossible":
-                coste[i]= "impossible"
-                #coste.append("impossible")
-            else:
-                pilar_contado_por_dos = (h_max - pos_y[a - 1] ) * alpha
-                coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
-                #comentado-print(coste[i],"=",aux_a, "+" ,aux_b ,"-",pilar_contado_por_dos)
-                #coste.append(aux_a + aux_b - pilar_contado_por_dos)
 
-            ##comentado-print(coste[i])
+            #if aux_a && aux_b == "impossible"
+            #    return "aux_a"
 
-            #coste[i] = rec_func(a, pos_x_a, pos_y_a) + rec_func(b, pos_x_b, pos_y_b)
-            i += 1
+
+        ##comentado-print(aux_a)
+        ##comentado-print(aux_b)
+
+        if aux_a == "impossible" or aux_b == "impossible":
+            coste[i]= "impossible"
+            #coste.append("impossible")
+        else:
+            pilar_contado_por_dos = (h_max - pos_y[a - 1] ) * alpha
+            coste[i] = aux_a + aux_b - pilar_contado_por_dos # Quitarle el coste del pilar en comun
+            #comentado-print(coste[i],"=",aux_a, "+" ,aux_b ,"-",pilar_contado_por_dos)
+            #coste.append(aux_a + aux_b - pilar_contado_por_dos)
+
+        ##comentado-print(coste[i])
+
+        #coste[i] = rec_func(a, pos_x_a, pos_y_a) + rec_func(b, pos_x_b, pos_y_b)
+        #i += 1
 
     # Calculo de costes para un solo arco
     coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
@@ -72,7 +78,8 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     #comentado-print(u"\u001b[35m", pos_x ,u"\u001b[0m")
     #coste[n] = 5
     ##comentado-print(coste[n])
-
+    #print (" Solucion ",solucion)
+    #solucion+=solucion
     #for i in coste: ## hacer en caso de que el min no pueda gestionar strings "imposible"
      #   if coste[i] == "impossible":
       #      return  "impossible"
@@ -122,6 +129,82 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
 
     return result
 
+def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
+    """5 puntos
+        recusividad
+
+        0 - 1,2,3,4
+            0 - 2,3,4
+                0 - 3,4 -> 3 - 4
+                    0 - 4"""
+    
+    coste = {}
+
+    if n > 2:
+        
+        i = 1
+        
+        while i < n - 1:
+            
+            pos_x_a = pos_x[:i+1] # Array con las posiciones desde la a hasta la final
+            pos_y_a = pos_y[:i+1]
+            aux_a = calculate_cost_one_arch(i + 1, pos_x_a, pos_y_a)
+
+            #llamada recursiva con los puntos desde i al final
+            pos_x_b = pos_x[i:] # Array con las posiciones desde la a hasta la final
+            pos_y_b = pos_y[i:]
+            aux_b = rec_func(n - i, pos_x_b, pos_y_b)
+
+            if aux_a == "impossible" or aux_b == "impossible":
+                coste[i]= "impossible"
+                #coste.append("impossible")
+            else:
+                #pilar_contado_por_dos = (h_max - pos_y[i - 1] ) * alpha
+                coste[i] = aux_a + aux_b
+            i += 1
+           
+
+    # Calculo de costes para un solo arco
+    coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+ 
+    result = 999999999999999999
+
+    all_impossible = True
+    for x in coste:
+        if coste[x] != "impossible":
+            all_impossible = False
+            break
+
+    if all_impossible:
+        return "impossible"
+
+    for k in coste:
+        if coste[k] != "impossible":
+            if coste[k] < result:
+                #comentado-print("+++++++++++++++++++++++++++++++++++", coste[k], "+++++++++++++++++++++++++++++++++++")
+                result = coste[k]
+
+    """
+    # Minimo de los costes
+    result = coste[n]
+    for i in coste:
+        if coste[i] != "impossible":
+            if coste[i] < result:
+             result = coste[i]
+        else:
+            coste[i]= "impossible"
+    #result = coste[min(coste)]"""
+
+    #comentado-print(result)
+
+    return result
+    
+                    
+
+
+
+
+
 
 def check_overlap_and_calculate_cost_multiple_arches():
     """Comprueba que todos los arcos posibles no interfieran con el terreno,
@@ -159,14 +242,15 @@ def calculate_cost_one_arch(n_points, pos_x, pos_y):
     if doesnt_overlap_one_arch(n_points, pos_x, pos_y):
         result_columns = 0
         result_columns = float(result_columns + (h_max - int(pos_y[0])))
-        result_columns = float(result_columns + (h_max - int(pos_y[n_points - 1])))
+        #result_columns = float(result_columns + (h_max - int(pos_y[n_points - 1])))
         result_columns = alpha * result_columns
 
         result_distances = 0
         result_distances = result_distances + \
-            ((int(pos_x[n_points-1]) - int(pos_x[0])) * (int(pos_x[n_points-1]) - int(pos_x[0])))
+            ((int(pos_x[-1]) - int(pos_x[0])) * (int(pos_x[-1]) - int(pos_x[0])))
         result_distances = float(beta * result_distances)
         result_total = float(result_columns + result_distances)
+
         return result_total
     return "impossible"
 
@@ -285,6 +369,8 @@ if __name__ == "__main__":
     if superDebug == True:
         for filename in sorted(os.listdir(directory)):
             if filename.endswith(".in"):
+                if filename == "secret-10.in":
+                    continue
                 
         #os.chdir("/mydir")
             #for file in glob.glob("*.txt"):
@@ -328,6 +414,8 @@ if __name__ == "__main__":
                         print("Calculando ...")
 
                         result = rec_func(n_points, pos_x, pos_y)
+                        if result != "impossible":
+                            result = result + (h_max - pos_y[-1] ) * alpha
                         
                        
                         #print(int(result))
@@ -335,10 +423,11 @@ if __name__ == "__main__":
                         #result = int(result)
                         if debug == True:
                             print(u"\u001b[32mDebug Enabled\u001b[0m")
-                            print(pos_x)
-                            print(pos_y)
+                            #print(pos_x)
+                            #print(pos_y)
                             if result == "impossible":
-                                print ("impssible")
+                                print ("impossible")
+                                print (comparar_resultado)
                             else:
                                 print(u"\n\u001b[33mResultado Calculado", int(result) , u"\u001b[0m")
                                 print(u"\u001b[32mResultado Correcto ", comparar_resultado , u"\u001b[0m")
@@ -351,7 +440,7 @@ if __name__ == "__main__":
                                 else:
                                     print(u"\u001b[31mMAL\u001b[0m\n")
 
-                            print(u"\u001b[36m" , pos_x , u"\u001b[0m")
+                            #print(u"\u001b[36m" , pos_x , u"\u001b[0m")
                     else:
                         print("impossible")
                 else:
