@@ -49,7 +49,7 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
     # Calculo de costes para un solo arco
     coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
 
-    result = 999999999999999999
+    result = sys.maxsize
 
     all_impossible = True
     for x in coste:
