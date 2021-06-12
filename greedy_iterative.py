@@ -7,6 +7,19 @@ import sys
 from calculate import Calcul
 
 
+def greedy():
+    """Greedy"""
+
+    coste_total = greedy_iterative(calcular.get_n_points(), calcular.get_pos_x(),
+                              calcular.get_pos_y())
+    if coste_total != -1 and coste_total != "impossible":
+        coste_total = int(coste_total)
+    if coste_total == -1:
+        coste_total = "impossible"
+
+    return coste_total
+
+
 def greedy_iterative(n, pos_x, pos_y):
     i = 0
     coste_total = 0
@@ -32,7 +45,8 @@ def greedy_iterative(n, pos_x, pos_y):
                 x_menor_coste = x
                 menor_coste = aux
                 #print("+++++++++++")
-        pilar_contado_por_dos = (h_max - pos_y[x_menor_coste]) * alpha
+        pilar_contado_por_dos = (calcular.get_h_max() -
+                                 pos_y[x_menor_coste]) * calcular.get_alpha()
         if menor_coste != -1 and menor_coste != "impossible":
             coste_total += (menor_coste - pilar_contado_por_dos
                             )  # Restamos el coste de pilares duplicados
@@ -53,15 +67,17 @@ def greedy_iterative(n, pos_x, pos_y):
 def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
     if doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
         result_columns = 0
-        result_columns = float(result_columns + (h_max - int(pos_y[start])))
-        result_columns = float(result_columns + (h_max - int(pos_y[end])))
-        result_columns = alpha * result_columns
+        result_columns = float(result_columns +
+                               (calcular.get_h_max() - int(pos_y[start])))
+        result_columns = float(result_columns +
+                               (calcular.get_h_max() - int(pos_y[end])))
+        result_columns = calcular.get_alpha() * result_columns
 
         result_distances = 0
         result_distances = result_distances + (
             (int(pos_x[end]) - int(pos_x[start])) *
             (int(pos_x[end]) - int(pos_x[start])))
-        result_distances = float(beta * result_distances)
+        result_distances = float(calcular.get_beta() * result_distances)
         result_total = float(result_columns + result_distances)
         return result_total
     return "impossible"
@@ -75,7 +91,7 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
     d_horizontal = pos_x[end] - pos_x[start]
     # center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total,
     # tenemos que calcular la mitad del ancho de donde vaya el arco
-    center_y = h_max - (d_horizontal / 2)
+    center_y = calcular.get_h_max() - (d_horizontal / 2)
 
     # print("-------Puntos-------")
 
@@ -160,34 +176,27 @@ def read_terrain():
 
 if __name__ == "__main__":
 
-    # f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    filename = "secret-10"
+    if len(sys.argv) != 2:
+        if len(sys.argv) == 1:
+            print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
+            # Por hacer
+            sys.exit(0)
+        print(
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+        sys.exit(0)
 
-    f = open("test-greedy/" + filename + ".in", "r")
-    valores = f.readline().split(" ")
+    f = open(sys.argv[1], "r")
 
-    s = open("test-greedy/" + filename + ".ans", "r")
-    comparar_resultado = s.readline()
+    calcular = Calcul(0, 0, 0, 0)  # IMPORTANTE CAMBIAR
+    calcular.read_valores_aqueductor(f)
 
-    n_points = int(valores[0])
-    h_max = int(valores[1])
-    alpha = int(valores[2])
-    beta = int(valores[3])
+    if calcular.is_valid():
+        if calcular.read_terrain(f):
 
-    if is_valid():
-        pos_x = [0]  # X primera columna
-        pos_y = [0]  # Y segunda columna
-        if read_terrain():
+            print(greedy())
 
-            result = greedy_iterative(n_points, pos_x, pos_y)
-            # result = int(result)
-            if result == -1:
-                result = "impossible"
-            #print(u"\n\u001b[33mResultado Calculado", result, u"\u001b[0m")
-            #print(u"\u001b[32mResultado Correcto ", comparar_resultado, u"\u001b[0m\n")
-            #print(u"\u001b[36m", pos_x, u"\u001b[0m")
-            print(result)
         else:
             print("impossible")
     else:
         print("impossible")
+    sys.exit(0)

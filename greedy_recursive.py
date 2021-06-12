@@ -8,26 +8,21 @@ from calculate import Calcul
 
 
 def greedy():
-
-    # if result not in("impossible", -1):
-    #    print(int(coste_total))
-    # else:
-    #    print("impossible")
-
+    """Greedy"""
     coste_total = greedy_recursive(calcular.get_n_points(),
                                    calcular.get_pos_x(), calcular.get_pos_y())
-
     if coste_total != -1 and coste_total != "impossible":
         coste_total = int(coste_total +
                           (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
                           calcular.get_alpha())  # Sumamos el último pilar
-
     if coste_total == -1:
         coste_total = "impossible"
+
     return coste_total
 
 
 def greedy_recursive(n, pos_x, pos_y):
+    """Greedy"""
     coste_total = 0
     if n > 1:
         x = 1
