@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 """Programa para calcular el coste de un aqueducto en modo BackTracking Recursivo."""
 
 import sys
@@ -12,14 +11,12 @@ sys.setrecursionlimit(20000)
 
 def backtracking():
     """Funcion Inicial Backtracking"""
-    result = backtracking_recursive(
-        calcular.get_n_points(), calcular.get_pos_x(), calcular.get_pos_y()
-    )
+    result = backtracking_recursive(calcular.get_n_points(),
+                                    calcular.get_pos_x(), calcular.get_pos_y())
     if result != "impossible":
-        result = int(
-            result
-            + (calcular.get_h_max() - calcular.get_pos_y()[-1]) * calcular.get_alpha()
-        )
+        result = int(result +
+                     (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
+                     calcular.get_alpha())
     return result
 
 
@@ -34,12 +31,13 @@ def backtracking_recursive(n_points, pos_x, pos_y):
 
         while i < n_points - 1:
 
-            pos_x_a = pos_x[: i + 1]
-            pos_y_a = pos_y[: i + 1]
+            pos_x_a = pos_x[:i + 1]
+            pos_y_a = pos_y[:i + 1]
             aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
 
             # llamada recursiva con los puntos desde i al final
-            pos_x_b = pos_x[i:]  # Array con las posiciones desde la a hasta la final
+            pos_x_b = pos_x[
+                i:]  # Array con las posiciones desde la a hasta la final
             pos_y_b = pos_y[i:]
             aux_b = backtracking_recursive(n_points - i, pos_x_b, pos_y_b)
 
@@ -80,7 +78,8 @@ if __name__ == "__main__":
             print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
             # Por hacer
             sys.exit(0)
-        print(u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+        print(
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
         sys.exit(0)
 
     f = open(sys.argv[1], "r")

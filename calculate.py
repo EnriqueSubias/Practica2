@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 """Calculate"""
 
 import math
@@ -5,7 +6,6 @@ import math
 
 class Calcul:
     """Calcul"""
-
     def __init__(self, n_points, h_max, alpha, beta):
         self.n_points = n_points
         self.h_max = h_max
@@ -18,15 +18,15 @@ class Calcul:
         """A"""
         if self.doesnt_overlap_one_arch(pos_x, pos_y, start, end):
             result_columns = 0
-            result_columns = float(result_columns + (self.h_max - int(pos_y[start])))
+            result_columns = float(result_columns +
+                                   (self.h_max - int(pos_y[start])))
             # result_columns = float(result_columns + (self.h_max - int(pos_y[end])))
             result_columns = self.alpha * result_columns
 
             result_distances = 0
             result_distances = result_distances + (
-                (int(pos_x[end]) - int(pos_x[start]))
-                * (int(pos_x[end]) - int(pos_x[start]))
-            )
+                (int(pos_x[end]) - int(pos_x[start])) *
+                (int(pos_x[end]) - int(pos_x[start])))
             result_distances = float(self.beta * result_distances)
             result_total = float(result_columns + result_distances)
             return result_total
@@ -36,15 +36,16 @@ class Calcul:
         """A"""
         if self.doesnt_overlap_one_arch(pos_x, pos_y, start, end):
             result_columns = 0
-            result_columns = float(result_columns + (self.h_max - int(pos_y[start])))
-            result_columns = float(result_columns + (self.h_max - int(pos_y[end])))
+            result_columns = float(result_columns +
+                                   (self.h_max - int(pos_y[start])))
+            result_columns = float(result_columns +
+                                   (self.h_max - int(pos_y[end])))
             result_columns = self.alpha * result_columns
 
             result_distances = 0
             result_distances = result_distances + (
-                (int(pos_x[end]) - int(pos_x[start]))
-                * (int(pos_x[end]) - int(pos_x[start]))
-            )
+                (int(pos_x[end]) - int(pos_x[start])) *
+                (int(pos_x[end]) - int(pos_x[start])))
             result_distances = float(self.beta * result_distances)
             result_total = float(result_columns + result_distances)
             return result_total
@@ -73,9 +74,8 @@ class Calcul:
             if center_y < int(pos_y[i]):
                 terrain_point[0] = int(pos_x[i])
                 terrain_point[1] = int(pos_y[i])
-                angle = self.calculate_angle(
-                    point1, point2, terrain_point, d_horizontal
-                )
+                angle = self.calculate_angle(point1, point2, terrain_point,
+                                             d_horizontal)
                 if angle < 90:
                     return False
                 # else:
@@ -83,7 +83,8 @@ class Calcul:
         return True
 
     @classmethod
-    def calculate_angle(cls, point1, point2, terrain_point, distance_horizontal):
+    def calculate_angle(cls, point1, point2, terrain_point,
+                        distance_horizontal):
         """Calcula el angulo de incidencia entre un punto del terreno y dos puntos
         en los pilares a la altura del centro de la semicircunferencia"""
 
@@ -99,32 +100,22 @@ class Calcul:
         distance2vector[0] = float(point2[0] - terrain_point[0])
         distance2vector[1] = float(terrain_point[1] - point2[1])
 
-        distance1 = math.sqrt(
-            distance1vector[0] * distance1vector[0]
-            + distance1vector[1] * distance1vector[1]
-        )
-        distance2 = math.sqrt(
-            distance2vector[0] * distance2vector[0]
-            + distance2vector[1] * distance2vector[1]
-        )
+        distance1 = math.sqrt(distance1vector[0] * distance1vector[0] +
+                              distance1vector[1] * distance1vector[1])
+        distance2 = math.sqrt(distance2vector[0] * distance2vector[0] +
+                              distance2vector[1] * distance2vector[1])
 
-        cos_result = (
-            (distance1 * distance1)
-            + (distance2 * distance2)
-            - (distance_horizontal * distance_horizontal)
-        ) / (2 * distance1 * distance2)
+        cos_result = ((distance1 * distance1) + (distance2 * distance2) -
+                      (distance_horizontal * distance_horizontal)) / (
+                          2 * distance1 * distance2)
         angle = math.degrees(math.acos(cos_result))
 
         return angle
 
     def is_valid(self):
         """Comprueba que los parametros de la primera linea son correctos segun el enunciado."""
-        if (
-            self.n_points < 2
-            or self.n_points > 10000
-            or self.h_max < 1
-            or self.h_max > 100000
-        ):
+        if (self.n_points < 2 or self.n_points > 10000 or self.h_max < 1
+                or self.h_max > 100000):
             return False
         if self.alpha < 1 or self.alpha > 10000 or self.beta < 1 or self.beta > 10000:
             return False

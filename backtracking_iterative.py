@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 """Programa para calcular el coste de un aqueducto en modo BackTracking Iterativo."""
 import os, os.path, glob
 import math
@@ -11,7 +10,8 @@ sys.setrecursionlimit(20000)
 solucion = 1
 # BackTracking Iterativo
 
-def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
+
+def rec_func(n, pos_x, pos_y):  # anadir mas parametros que hagan falta
     """5 puntos
         recusividad
 
@@ -28,12 +28,14 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
 
     while i < n - 1:
 
-        pos_x_a = pos_x[:i+1] # Array con las posiciones desde la a hasta la final
-        pos_y_a = pos_y[:i+1]
+        pos_x_a = pos_x[:i +
+                        1]  # Array con las posiciones desde la a hasta la final
+        pos_y_a = pos_y[:i + 1]
         aux_a = calculate_cost_one_arch(i + 1, pos_x_a, pos_y_a)
 
         #llamada recursiva con los puntos desde i al final
-        pos_x_b = pos_x[i:] # Array con las posiciones desde la a hasta la final
+        pos_x_b = pos_x[
+            i:]  # Array con las posiciones desde la a hasta la final
         pos_y_b = pos_y[i:]
 
         #aux_b = rec_func(n - i, pos_x_b, pos_y_b)
@@ -46,13 +48,15 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
             if action == 'CALL':
                 n_p = data
                 if n <= 2:
-                    coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y)
+                    coste[n] = calculate_cost_one_arch(n, pos_x, pos_y)
                 else:
                     #llamada recursiva con los puntos desde i al final
                     STACK.insert(0, ['RESUME', n_p, pos_x_b, pos_y_b])
-                    pos_x_b = pos_x[i:] # Array con las posiciones desde la a hasta la final
+                    pos_x_b = pos_x[
+                        i:]  # Array con las posiciones desde la a hasta la final
                     pos_y_b = pos_y[i:]
-                    STACK.insert(len(STACK), ['CALL', n_p - i, pos_x_b, pos_y_b])
+                    STACK.insert(len(STACK),
+                                 ['CALL', n_p - i, pos_x_b, pos_y_b])
 
             elif action == "RESUME":
                 n_p = data
@@ -60,9 +64,8 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
                 y_p = y
                 aux_b = calculate_cost_one_arch(n_p, x, y)
 
-
         if aux_a == "impossible" or aux_b == "impossible":
-            coste[i]= "impossible"
+            coste[i] = "impossible"
             #coste.append("impossible")
         else:
             #pilar_contado_por_dos = (h_max - pos_y[i - 1] ) * alpha
@@ -110,7 +113,7 @@ def check_overlap_and_calculate_cost_multiple_arches():
             if center_y < int(pos_y[i]) or center_y < int(pos_y[i + 1]):
                 return "impossible"
             dist = int(pos_x[i + 1]) - int(pos_x[i])
-            result_distances = float(result_distances + (dist ** 2))
+            result_distances = float(result_distances + (dist**2))
         result_columns = float(result_columns + (h_max - int(pos_y[i])))
     result_columns = float(alpha * result_columns)
     result_distances = float(beta * result_distances)
@@ -142,14 +145,15 @@ def calculate_cost_one_arch(n_points, pos_x, pos_y):
         return result_total
     return "impossible"
 
-#def doesnt_overlap_multiple_arches():
-    #for i in range(0, n_points - 1):
-     #   radio = (float(pos_x[i + 1]) - float(pos_x[i])) / 2
-      #  center_y = h_max - radio
 
-       # if center_y < int(pos_y[i]) or center_y < int(pos_y[i + 1]):
-        #    return False
-    #return True
+#def doesnt_overlap_multiple_arches():
+#for i in range(0, n_points - 1):
+#   radio = (float(pos_x[i + 1]) - float(pos_x[i])) / 2
+#  center_y = h_max - radio
+
+# if center_y < int(pos_y[i]) or center_y < int(pos_y[i + 1]):
+#    return False
+#return True
 
 
 def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
@@ -162,7 +166,6 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
     d_horizontal = pos_x[-1] - pos_x[0]
     #center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total, tenemos que calcular la mitad del ancho de donde vaya el arco
     center_y = h_max - (d_horizontal / 2)
-
 
     ##comentado-print("-------Puntos-------")
 
@@ -185,12 +188,14 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y):
         if center_y < int(pos_y[i]):
             terrain_point[0] = int(pos_x[i])
             terrain_point[1] = int(pos_y[i])
-            angle = calculate_angle(point1, point2, terrain_point, d_horizontal)
+            angle = calculate_angle(point1, point2, terrain_point,
+                                    d_horizontal)
             if angle < 90:
                 return False
             #else:
-                #seguir dando vueltas
+            #seguir dando vueltas
     return True
+
 
 def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     """Calcula el angulo de incidencia entre un punto del terreno y dos puntos
@@ -214,13 +219,14 @@ def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     distance2vector[0] = float(point2[0] - terrain_point[0])
     distance2vector[1] = float(terrain_point[1] - point2[1])
 
-    distance1 = math.sqrt(
-        distance1vector[0] * distance1vector[0] + distance1vector[1] * distance1vector[1])
-    distance2 = math.sqrt(
-        distance2vector[0] * distance2vector[0] + distance2vector[1] * distance2vector[1])
+    distance1 = math.sqrt(distance1vector[0] * distance1vector[0] +
+                          distance1vector[1] * distance1vector[1])
+    distance2 = math.sqrt(distance2vector[0] * distance2vector[0] +
+                          distance2vector[1] * distance2vector[1])
 
     cos_result = (((distance1 * distance1) + (distance2 * distance2) -
-         (distance_horizontal * distance_horizontal)) / (2 * distance1 * distance2))
+                   (distance_horizontal * distance_horizontal)) /
+                  (2 * distance1 * distance2))
     angle = math.degrees(math.acos(cos_result))
 
     return angle
@@ -248,8 +254,6 @@ def read_terrain():
     return True
 
 
-
-
 if __name__ == "__main__":
 
     directory = "aqueductes/"
@@ -263,14 +267,15 @@ if __name__ == "__main__":
                     continue
 
         #os.chdir("/mydir")
-            #for file in glob.glob("*.txt"):
+        #for file in glob.glob("*.txt"):
 
-                #DIR = 'testing/'
-                #for name in os.listdir(DIR):
-                    #if os.path.isfile(os.path.join(DIR, name)):
-                       # print(name)
+        #DIR = 'testing/'
+        #for name in os.listdir(DIR):
+        #if os.path.isfile(os.path.join(DIR, name)):
+        # print(name)
 
-                print(u"\n\u001b[36m-------- " + filename+ " --------\u001b[0m\n")
+                print(u"\n\u001b[36m-------- " + filename +
+                      " --------\u001b[0m\n")
                 #print(os.path.join(filename))
 
                 #list = os.listdir("testing/") # dir is your directory path
@@ -282,7 +287,6 @@ if __name__ == "__main__":
                 f = open(directory + filename + ".in", "r")
                 valores = f.readline().split(" ")
 
-
                 s = open(directory + filename + ".ans", "r")
                 comparar_resultado = s.readline()
 
@@ -292,8 +296,8 @@ if __name__ == "__main__":
                 beta = int(valores[3])
 
                 if is_valid():
-                    pos_x = [0]              # X primera columna
-                    pos_y = [0]              # Y segunda columna
+                    pos_x = [0]  # X primera columna
+                    pos_y = [0]  # Y segunda columna
                     if read_terrain():
 
                         #f.close # pylint dice que es innecesario ponerlo
@@ -305,8 +309,7 @@ if __name__ == "__main__":
 
                         result = rec_func(n_points, pos_x, pos_y)
                         if result != "impossible":
-                            result = result + (h_max - pos_y[-1] ) * alpha
-
+                            result = result + (h_max - pos_y[-1]) * alpha
 
                         #print(int(result))
 
@@ -316,11 +319,13 @@ if __name__ == "__main__":
                             #print(pos_x)
                             #print(pos_y)
                             if result == "impossible":
-                                print ("impossible")
-                                print (comparar_resultado)
+                                print("impossible")
+                                print(comparar_resultado)
                             else:
-                                print(u"\n\u001b[33mResultado Calculado", int(result) , u"\u001b[0m")
-                                print(u"\u001b[32mResultado Correcto ", comparar_resultado , u"\u001b[0m")
+                                print(u"\n\u001b[33mResultado Calculado",
+                                      int(result), u"\u001b[0m")
+                                print(u"\u001b[32mResultado Correcto ",
+                                      comparar_resultado, u"\u001b[0m")
                                 comparar_resultado2 = " " + comparar_resultado
                                 diff = int(result) - int(comparar_resultado)
                                 print(diff)
@@ -340,7 +345,7 @@ if __name__ == "__main__":
     if debug == True:
         filename = "secret-08"
 
-        f = open("aqueductes/" + filename +".in", "r")
+        f = open("aqueductes/" + filename + ".in", "r")
         valores = f.readline().split(" ")
 
         s = open("aqueductes/" + filename + ".ans", "r")
@@ -349,7 +354,9 @@ if __name__ == "__main__":
     if debug == False:
 
         if len(sys.argv) != 2:
-            print(u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+            print(
+                u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n"
+            )
             exit(0)
         f = open(sys.argv[1], "r")
         valores = f.readline().split(" ")
@@ -360,8 +367,8 @@ if __name__ == "__main__":
     beta = int(valores[3])
 
     if is_valid():
-        pos_x = [0]              # X primera columna
-        pos_y = [0]              # Y segunda columna
+        pos_x = [0]  # X primera columna
+        pos_y = [0]  # Y segunda columna
         if read_terrain():
 
             #f.close # pylint dice que es innecesario ponerlo
@@ -382,8 +389,10 @@ if __name__ == "__main__":
                 print(u"\u001b[32mDebug Enabled\u001b[0m")
                 print(pos_x)
                 print(pos_y)
-                print(u"\n\u001b[33mResultado Calculado", int(result) , u"\u001b[0m")
-                print(u"\u001b[32mResultado Correcto ", comparar_resultado , u"\u001b[0m")
+                print(u"\n\u001b[33mResultado Calculado", int(result),
+                      u"\u001b[0m")
+                print(u"\u001b[32mResultado Correcto ", comparar_resultado,
+                      u"\u001b[0m")
                 comparar_resultado2 = " " + comparar_resultado
                 diff = int(result) - int(comparar_resultado)
                 print(diff)
@@ -393,7 +402,7 @@ if __name__ == "__main__":
                 else:
                     print(u"\u001b[31mMAL\u001b[0m\n")
 
-                print(u"\u001b[36m" , pos_x , u"\u001b[0m")
+                print(u"\u001b[36m", pos_x, u"\u001b[0m")
         else:
             print("impossible")
     else:

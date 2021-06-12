@@ -1,54 +1,53 @@
 #! /usr/bin/env python3
+"""Greedy Iterative"""  # Coste minimo O(n^2)
 
 import math
 import sys
 
-print(u"\u001b[36m\Greedy Iterativo\n\u001b[0m")
+from calculate import Calcul
 
-# Coste minimo O(n^2)
 
 def greedy_iterative(n, pos_x, pos_y):
     i = 0
     coste_total = 0
-    #x_menor_coste = 0
+    # x_menor_coste = 0
     # Array 0-4
     # i     0-3
     # x     i-4
     while i < n - 1:
         x = i + 1
-        menor_coste = calculate_cost_arch(n, pos_x,  pos_y, i, x)
+        menor_coste = calculate_cost_arch(n, pos_x, pos_y, i, x)
         if menor_coste == "impossible":
             menor_coste = -1
         x_menor_coste = x
-        
-        print("POS X: ", x)
+
+        #print("POS X: ", x)
         while x < len(pos_x) - 1:
             x += 1
-            aux = calculate_cost_arch(n, pos_x,  pos_y, i, x)
-            print("POS X: ", x)
+            aux = calculate_cost_arch(n, pos_x, pos_y, i, x)
+            #print("POS X: ", x)
             if aux == "impossible":
                 continue
             if aux < menor_coste or menor_coste == -1:
                 x_menor_coste = x
                 menor_coste = aux
-                print("+++++++++++")
-        pilar_contado_por_dos = (h_max - pos_y[x_menor_coste] ) * alpha
+                #print("+++++++++++")
+        pilar_contado_por_dos = (h_max - pos_y[x_menor_coste]) * alpha
         if menor_coste != -1 and menor_coste != "impossible":
-            coste_total += menor_coste - pilar_contado_por_dos # Restamos el coste de pilares duplicados
+            coste_total += (menor_coste - pilar_contado_por_dos
+                            )  # Restamos el coste de pilares duplicados
         i = x_menor_coste
-        print("Posición de arco", x_menor_coste)
-        print("POS I: ",i)
+        #print("Posición de arco", x_menor_coste)
+        #print("POS I: ", i)
         if menor_coste == -1:
             coste_total = "impossible"
             break
 
     if menor_coste != -1 and menor_coste != "impossible":
-        coste_total += pilar_contado_por_dos # Sumamos el último pilar
-        print("*****    +",pilar_contado_por_dos)
+        coste_total += pilar_contado_por_dos  # Sumamos el último pilar
+        #print("*****    +", pilar_contado_por_dos)
 
     return coste_total
-
-
 
 
 def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
@@ -59,12 +58,14 @@ def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
         result_columns = alpha * result_columns
 
         result_distances = 0
-        result_distances = result_distances + \
-            ((int(pos_x[end]) - int(pos_x[start])) * (int(pos_x[end]) - int(pos_x[start])))
+        result_distances = result_distances + (
+            (int(pos_x[end]) - int(pos_x[start])) *
+            (int(pos_x[end]) - int(pos_x[start])))
         result_distances = float(beta * result_distances)
-        result_total= float(result_columns + result_distances)
+        result_total = float(result_columns + result_distances)
         return result_total
     return "impossible"
+
 
 def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
     """Comprueba que ningun punto del terreno interfiera con la semicircunferencia de cada arco,
@@ -72,18 +73,18 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
     aqueducto, pero si es menor de 90 grados, significa que si que interfiere."""
     terrain_point = [0, 0]
     d_horizontal = pos_x[end] - pos_x[start]
-    #center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total, tenemos que calcular la mitad del ancho de donde vaya el arco
+    # center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total,
+    # tenemos que calcular la mitad del ancho de donde vaya el arco
     center_y = h_max - (d_horizontal / 2)
 
+    # print("-------Puntos-------")
 
-    #print("-------Puntos-------")
+    # print(pos_x)
+    # print(pos_y)
 
-    #print(pos_x)
-    #print(pos_y)
-
-    #print(n_points)
-    #print(h_max, "max =",max(pos_x), pos_x[-1], center_y)
-    #print("--------------------")
+    # print(n_points)
+    # print(h_max, "max =",max(pos_x), pos_x[-1], center_y)
+    # print("--------------------")
 
     point1 = [0, 0]
     point1[0] = float(pos_x[start])
@@ -97,43 +98,39 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
         if center_y < int(pos_y[i]):
             terrain_point[0] = int(pos_x[i])
             terrain_point[1] = int(pos_y[i])
-            angle = calculate_angle(point1, point2, terrain_point, d_horizontal)
+            angle = calculate_angle(point1, point2, terrain_point,
+                                    d_horizontal)
             if angle < 90:
                 return False
-            #else:
-                #seguir dando vueltas
+            # else:
+            # seguir dando vueltas
     return True
 
 
 def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     """Calcula el angulo de incidencia entre un punto del terreno y dos puntos
-       en los pilares a la altura del centro de la semicircunferencia"""
-
-    #print("-------Angulo-------")
-    #print(point1[0], point1[1])
-    #print(point2[0], point2[1])
-    #print(terrain_point[0], terrain_point[1])
-    #print("--------------------")
+    en los pilares a la altura del centro de la semicircunferencia"""
 
     angle = 0
 
-    #Distancia x e y del punto1 al punto del terreno
+    # Distancia x e y del punto1 al punto del terreno
     distance1vector = [0, 0]
     distance1vector[0] = float(terrain_point[0] - point1[0])
     distance1vector[1] = float(terrain_point[1] - point1[1])
 
-    #Distancia x e y del punto2 al punto del terreno
+    # Distancia x e y del punto2 al punto del terreno
     distance2vector = [0, 0]
     distance2vector[0] = float(point2[0] - terrain_point[0])
     distance2vector[1] = float(terrain_point[1] - point2[1])
 
-    distance1 = math.sqrt(
-        distance1vector[0] * distance1vector[0] + distance1vector[1] * distance1vector[1])
-    distance2 = math.sqrt(
-        distance2vector[0] * distance2vector[0] + distance2vector[1] * distance2vector[1])
+    distance1 = math.sqrt(distance1vector[0] * distance1vector[0] +
+                          distance1vector[1] * distance1vector[1])
+    distance2 = math.sqrt(distance2vector[0] * distance2vector[0] +
+                          distance2vector[1] * distance2vector[1])
 
-    cos_result = (((distance1 * distance1) + (distance2 * distance2) -
-         (distance_horizontal * distance_horizontal)) / (2 * distance1 * distance2))
+    cos_result = ((distance1 * distance1) + (distance2 * distance2) -
+                  (distance_horizontal * distance_horizontal)) / (
+                      2 * distance1 * distance2)
     angle = math.degrees(math.acos(cos_result))
 
     return angle
@@ -163,16 +160,10 @@ def read_terrain():
 
 if __name__ == "__main__":
 
-    #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
+    # f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
     filename = "secret-10"
-    # secret-06
-    # secret-08
-    # secret-12
-    # secret-13
-    # secret-14
 
-
-    f = open("test-greedy/" + filename +".in", "r")
+    f = open("test-greedy/" + filename + ".in", "r")
     valores = f.readline().split(" ")
 
     s = open("test-greedy/" + filename + ".ans", "r")
@@ -184,21 +175,18 @@ if __name__ == "__main__":
     beta = int(valores[3])
 
     if is_valid():
-        pos_x = [0]              # X primera columna
-        pos_y = [0]              # Y segunda columna
+        pos_x = [0]  # X primera columna
+        pos_y = [0]  # Y segunda columna
         if read_terrain():
-            #f.close # pylint dice que es innecesario ponerlo
-            #result = [0, 0]
-            #result = check_overlap_and_calculate_cost_multiple_arches()
-            #result[1] = calculate_cost_one_arch()
 
             result = greedy_iterative(n_points, pos_x, pos_y)
-            #result = int(result)
+            # result = int(result)
             if result == -1:
                 result = "impossible"
-            print(u"\n\u001b[33mResultado Calculado", result , u"\u001b[0m")
-            print(u"\u001b[32mResultado Correcto ", comparar_resultado , u"\u001b[0m\n")
-            print(u"\u001b[36m" , pos_x , u"\u001b[0m")
+            #print(u"\n\u001b[33mResultado Calculado", result, u"\u001b[0m")
+            #print(u"\u001b[32mResultado Correcto ", comparar_resultado, u"\u001b[0m\n")
+            #print(u"\u001b[36m", pos_x, u"\u001b[0m")
+            print(result)
         else:
             print("impossible")
     else:

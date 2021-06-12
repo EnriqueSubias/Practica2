@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 """Greedy Recursive"""
 
 import math
@@ -7,22 +6,21 @@ import sys
 
 from calculate import Calcul
 
-# print(u"\u001b[36m\nGreedy Recursivo\n\u001b[0m")
+
 def greedy():
 
-
-    #if result not in("impossible", -1):
+    # if result not in("impossible", -1):
     #    print(int(coste_total))
-    #else:
+    # else:
     #    print("impossible")
 
-
-    coste_total = greedy_recursive(calcular.get_n_points(), calcular.get_pos_x(), calcular.get_pos_y())
+    coste_total = greedy_recursive(calcular.get_n_points(),
+                                   calcular.get_pos_x(), calcular.get_pos_y())
 
     if coste_total != -1 and coste_total != "impossible":
-        coste_total += (
-            calcular.get_h_max() - pos_y[-1]
-        ) * calcular.get_alpha()  # Sumamos el último pilar
+        coste_total = int(coste_total +
+                          (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
+                          calcular.get_alpha())  # Sumamos el último pilar
 
     if coste_total == -1:
         coste_total = "impossible"
@@ -48,18 +46,18 @@ def greedy_recursive(n, pos_x, pos_y):
                 menor_coste = aux
 
         if menor_coste != -1 and menor_coste != "impossible":
-            coste_total += (
-                menor_coste
-                - (calcular.get_h_max() - pos_y[x_menor_coste]) * calcular.get_alpha()
-            )  # Restamos el coste de pilares duplicados
+            coste_total += (menor_coste -
+                            (calcular.get_h_max() - pos_y[x_menor_coste]) *
+                            calcular.get_alpha())
+            # Restamos el coste de pilares duplicados
 
         if menor_coste == -1:
             coste_total = "impossible"
             return "impossible"
 
-        result_temp = greedy_recursive(
-            n - x_menor_coste, pos_x[x_menor_coste:], pos_y[x_menor_coste:]
-        )
+        result_temp = greedy_recursive(n - x_menor_coste,
+                                       pos_x[x_menor_coste:],
+                                       pos_y[x_menor_coste:])
 
         if result_temp == "impossible":
             coste_total = "impossible"
@@ -71,19 +69,16 @@ def greedy_recursive(n, pos_x, pos_y):
 def calculate_cost_arch(pos_x, pos_y, start, end):
     if doesnt_overlap_one_arch(pos_x, pos_y, start, end):
         result_columns = 0
-        result_columns = float(
-            result_columns + (calcular.get_h_max() - int(pos_y[start]))
-        )
-        result_columns = float(
-            result_columns + (calcular.get_h_max() - int(pos_y[end]))
-        )
+        result_columns = float(result_columns +
+                               (calcular.get_h_max() - int(pos_y[start])))
+        result_columns = float(result_columns +
+                               (calcular.get_h_max() - int(pos_y[end])))
         result_columns = calcular.get_alpha() * result_columns
 
         result_distances = 0
         result_distances = result_distances + (
-            (int(pos_x[end]) - int(pos_x[start]))
-            * (int(pos_x[end]) - int(pos_x[start]))
-        )
+            (int(pos_x[end]) - int(pos_x[start])) *
+            (int(pos_x[end]) - int(pos_x[start])))
         result_distances = float(calcular.get_beta() * result_distances)
         result_total = float(result_columns + result_distances)
         return result_total
@@ -113,11 +108,10 @@ def doesnt_overlap_one_arch(pos_x, pos_y, start, end):
         if center_y < int(pos_y[i]):
             terrain_point[0] = int(pos_x[i])
             terrain_point[1] = int(pos_y[i])
-            angle = calculate_angle(point1, point2, terrain_point, d_horizontal)
+            angle = calculate_angle(point1, point2, terrain_point,
+                                    d_horizontal)
             if angle < 90:
                 return False
-            # else:
-            # seguir dando vueltas
     return True
 
 
@@ -137,20 +131,14 @@ def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     distance2vector[0] = float(point2[0] - terrain_point[0])
     distance2vector[1] = float(terrain_point[1] - point2[1])
 
-    distance1 = math.sqrt(
-        distance1vector[0] * distance1vector[0]
-        + distance1vector[1] * distance1vector[1]
-    )
-    distance2 = math.sqrt(
-        distance2vector[0] * distance2vector[0]
-        + distance2vector[1] * distance2vector[1]
-    )
+    distance1 = math.sqrt(distance1vector[0] * distance1vector[0] +
+                          distance1vector[1] * distance1vector[1])
+    distance2 = math.sqrt(distance2vector[0] * distance2vector[0] +
+                          distance2vector[1] * distance2vector[1])
 
-    cos_result = (
-        (distance1 * distance1)
-        + (distance2 * distance2)
-        - (distance_horizontal * distance_horizontal)
-    ) / (2 * distance1 * distance2)
+    cos_result = ((distance1 * distance1) + (distance2 * distance2) -
+                  (distance_horizontal * distance_horizontal)) / (
+                      2 * distance1 * distance2)
     angle = math.degrees(math.acos(cos_result))
 
     return angle
@@ -163,7 +151,8 @@ if __name__ == "__main__":
             print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
             # Por hacer
             sys.exit(0)
-        print(u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+        print(
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
         sys.exit(0)
 
     f = open(sys.argv[1], "r")
@@ -175,7 +164,7 @@ if __name__ == "__main__":
         if calcular.read_terrain(f):
 
             print(greedy())
-        
+
         else:
             print("impossible")
     else:

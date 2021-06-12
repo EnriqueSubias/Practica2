@@ -1,5 +1,5 @@
 {
     "files.autoSave": "afterDelay",
-    "python.formatting.provider": "black",
+    "python.formatting.provider": "yapf",
     "python.pythonPath": "/usr/local/bin/python3"
 }
