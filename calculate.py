@@ -9,12 +9,15 @@ class calcul:
         self.h_max = h_max
         self.alpha = alpha
         self.beta = beta
+        self.pos_x = [0]
+        self.pos_y = [0]
 
-    def calculate_cost_one_arch_backtraking(self,n_points, pos_x, pos_y):
-        if self.doesnt_overlap_one_arch(n_points, pos_x, pos_y):
+
+    def calculate_cost_one_arch_backtraking(self, n_points, pos_x, pos_y, start, end):
+        if self.doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
             result_columns = 0
-            result_columns = float(result_columns + (self.h_max - int(pos_y[0])))
-            #result_columns = float(result_columns + (h_max - int(pos_y[n_points - 1])))
+            result_columns = float(result_columns + (self.h_max - int(pos_y[start])))
+            #result_columns = float(result_columns + (h_max - int(pos_y[end])))
             result_columns = self.alpha * result_columns
 
             result_distances = 0
@@ -22,28 +25,18 @@ class calcul:
                 ((int(pos_x[-1]) - int(pos_x[0])) * (int(pos_x[-1]) - int(pos_x[0])))
             result_distances = float(self.beta * result_distances)
             result_total = float(result_columns + result_distances)
-
             return result_total
         return "impossible"
 
-    def doesnt_overlap_one_arch(self,n_points, pos_x, pos_y):
+    def doesnt_overlap_one_arch(self, n_points, pos_x, pos_y, start, end):
         """Comprueba que ningun punto del terreno interfiera con la semicircunferencia de cada arco,
         si el angulo es mayor de 90 grados, el punto del terreno no se solapa con el
         aqueducto, pero si es menor de 90 grados, significa que si que interfiere."""
+        
         terrain_point = [0, 0]
-        d_horizontal = pos_x[-1] - pos_x[0]
+        d_horizontal = pos_x[end] - pos_x[start]
         #center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total, tenemos que calcular la mitad del ancho de donde vaya el arco
         center_y = self.h_max - (d_horizontal / 2)
-
-
-        ##comentado-print("-------Puntos-------")
-
-        ##comentado-print(pos_x)
-        ##comentado-print(pos_y)
-
-        ##comentado-print(n_points)
-        ##comentado-print(h_max, "max =",max(pos_x), pos_x[-1], center_y)
-        ##comentado-print("--------------------")
 
         point1 = [0, 0]
         point1[0] = float(pos_x[0])
@@ -63,36 +56,10 @@ class calcul:
                 #else:
                     #seguir dando vueltas
         return True
-
-    def is_valid():
-        """Comprueba que los parametros de la primera linea son correctos segun el enunciado."""
-        if n_points < 2 or n_points > 10000 or h_max < 1 or h_max > 100000:
-            return False
-        if alpha < 1 or alpha > 10000 or beta < 1 or beta > 10000:
-            return False
-        return True
-
-    def read_terrain():
-        """Lee los puntos del terreno y comprueba que esten por debajo de la altura maxima"""
-        for i in f:
-            string_doc = i.split(" ")
-            if float(string_doc[1]) > h_max:
-                return False
-            pos_x.append(float(string_doc[0]))
-            pos_y.append(float(string_doc[1]))
-        pos_x.pop(0)
-        pos_y.pop(0)
-        return True
-
-    def calculate_angle(self,point1, point2, terrain_point, distance_horizontal):
+    
+    def calculate_angle(self, point1, point2, terrain_point, distance_horizontal):
         """Calcula el angulo de incidencia entre un punto del terreno y dos puntos
         en los pilares a la altura del centro de la semicircunferencia"""
-
-        #comentado-print("-------Angulo-------")
-        #comentado-print(point1[0], point1[1])
-        #comentado-print(point2[0], point2[1])
-        #comentado-print(terrain_point[0], terrain_point[1])
-        #comentado-print("--------------------")
 
         angle = 0
 
@@ -116,3 +83,48 @@ class calcul:
         angle = math.degrees(math.acos(cos_result))
 
         return angle
+
+    def is_valid(self):
+        """Comprueba que los parametros de la primera linea son correctos segun el enunciado."""
+        if self.n_points < 2 or self.n_points > 10000 or self.h_max < 1 or self.h_max > 100000:
+            return False
+        if self.alpha < 1 or self.alpha > 10000 or self.beta < 1 or self.beta > 10000:
+            return False
+        return True
+
+    def read_valores_aqueductor(self, f):
+        valores = f.readline().split(" ")
+        self.n_points = int(valores[0])
+        self.h_max = int(valores[1])
+        self.alpha = int(valores[2])
+        self.beta = int(valores[3])
+
+    def read_terrain(self, f):
+        """Lee los puntos del terreno y comprueba que esten por debajo de la altura maxima"""
+        for i in f:
+            string_doc = i.split(" ")
+            if float(string_doc[1]) > self.h_max:
+                return False
+            self.pos_x.append(float(string_doc[0]))
+            self.pos_y.append(float(string_doc[1]))
+        self.pos_x.pop(0)
+        self.pos_y.pop(0)
+        return True
+
+    def get_n_points(self):
+        return self.n_points
+
+    def get_h_max(self):
+        return self.h_max
+
+    def get_alpha(self):
+        return self.alpha
+
+    def get_beta(self):
+        return self.beta
+
+    def get_posX(self):
+        return self.pos_x
+
+    def get_posY(self):
+        return self.pos_y

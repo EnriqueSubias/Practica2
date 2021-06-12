@@ -1,43 +1,47 @@
 #! /usr/bin/env python3
 
+""" """
+
 import math
 import sys
 
-print(u"\u001b[36m\nGreedy Recursivo\n\u001b[0m")
+from calculate import calcul
 
+#print(u"\u001b[36m\nGreedy Recursivo\n\u001b[0m")
 def greedy(n, pos_x, pos_y):
 
     coste_total = greedy_experimental(n, pos_x, pos_y)
 
-    pilar_contado_por_dos = (h_max - pos_y[-1] ) * alpha
     if coste_total != -1 and coste_total != "impossible":
-        coste_total += (h_max - pos_y[-1] ) * alpha # Sumamos el último pilar
-        print("*****    +",pilar_contado_por_dos)
+        coste_total += (calcular.get_h_max() - pos_y[-1] ) * calcular.get_alpha() # Sumamos el último pilar
+
+    if coste_total == -1:
+        coste_total = "impossible"
     return coste_total
 
 def greedy_experimental(n, pos_x, pos_y):
     coste_total = 0
     if n > 1:
         x =  1
+        x_menor_coste = x
         menor_coste = calculate_cost_arch(n, pos_x,  pos_y, 0, x)
+
+        #if menor_coste != impossible:
+
+
         if menor_coste == "impossible":
             menor_coste = -1
-        x_menor_coste = x
         while x < len(pos_x) - 1:
             x += 1
             aux = calculate_cost_arch(n, pos_x,  pos_y, 0, x)
-            print("POS X: ", x)
             if aux == "impossible":
                 continue
             if aux < menor_coste or menor_coste == -1:
                 x_menor_coste = x
                 menor_coste = aux
-                print("+++++++++++")
-        pilar_contado_por_dos = (h_max - pos_y[x_menor_coste] ) * alpha
+                
         if menor_coste != -1 and menor_coste != "impossible":
-            coste_total += menor_coste - pilar_contado_por_dos # Restamos el coste de pilares duplicados
-
-        print("Posición de arco", x_menor_coste)
+            coste_total += menor_coste - (calcular.get_h_max() - pos_y[x_menor_coste]) *  calcular.get_alpha() # Restamos el coste de pilares duplicados
 
         if menor_coste == -1:
             coste_total = "impossible"
@@ -46,23 +50,22 @@ def greedy_experimental(n, pos_x, pos_y):
         result_temp = greedy_experimental(n - x_menor_coste, pos_x[x_menor_coste:], pos_y[x_menor_coste:])
 
         if result_temp == "impossible":
-            coste_total= "impossible"
+            coste_total = "impossible"
         else:
             coste_total += result_temp
-
     return coste_total
 
 def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
     if doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
         result_columns = 0
-        result_columns = float(result_columns + (h_max - int(pos_y[start])))
-        result_columns = float(result_columns + (h_max - int(pos_y[end])))
-        result_columns = alpha * result_columns
+        result_columns = float(result_columns + (calcular.get_h_max() - int(pos_y[start])))
+        result_columns = float(result_columns + (calcular.get_h_max() - int(pos_y[end])))
+        result_columns =  calcular.get_alpha() * result_columns
 
         result_distances = 0
         result_distances = result_distances + \
             ((int(pos_x[end]) - int(pos_x[start])) * (int(pos_x[end]) - int(pos_x[start])))
-        result_distances = float(beta * result_distances)
+        result_distances = float(calcular.get_beta() * result_distances)
         result_total= float(result_columns + result_distances)
         return result_total
     return "impossible"
@@ -72,10 +75,11 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
     """Comprueba que ningun punto del terreno interfiera con la semicircunferencia de cada arco,
     si el angulo es mayor de 90 grados, el punto del terreno no se solapa con el
     aqueducto, pero si es menor de 90 grados, significa que si que interfiere."""
+
     terrain_point = [0, 0]
     d_horizontal = pos_x[end] - pos_x[start]
     #center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total, tenemos que calcular la mitad del ancho de donde vaya el arco
-    center_y = h_max - (d_horizontal / 2)
+    center_y = calcular.get_h_max() - (d_horizontal / 2)
 
     point1 = [0, 0]
     point1[0] = float(pos_x[start])
@@ -125,67 +129,28 @@ def calculate_angle(point1, point2, terrain_point, distance_horizontal):
     return angle
 
 
-def is_valid():
-    """Comprueba que los parametros de la primera linea son correctos segun el enunciado."""
-    if n_points < 2 or n_points > 10000 or h_max < 1 or h_max > 100000:
-        return False
-    if alpha < 1 or alpha > 10000 or beta < 1 or beta > 10000:
-        return False
-    return True
+if __name__ == "__main__": # Main original del greedy
 
+    if len(sys.argv) != 2:
+        if len(sys.argv) == 1:
+            print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
+            # Por hacer
+            exit(0)
+        print(u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+        exit(0)
 
-def read_terrain():
-    """Lee los puntos del terreno y comprueba que esten por debajo de la altura maxima"""
-    for i in f:
-        string_doc = i.split(" ")
-        if float(string_doc[1]) > h_max:
-            return False
-        pos_x.append(float(string_doc[0]))
-        pos_y.append(float(string_doc[1]))
-    pos_x.pop(0)
-    pos_y.pop(0)
-    return True
+    f = open(sys.argv[1], "r")
 
+    calcular = calcul(0,0,0,0)  # IMPORTANTE CAMBIAR
+    calcular.read_valores_aqueductor(f)
 
-
-if __name__ == "__main__":
-
-    #f = open(sys.argv[1], "r") ##########  IMPORTANTE ################
-    filename = "secret-28"
-    # secret-06
-    # secret-08
-    # secret-12
-    # secret-13
-    # secret-14
-
-
-    f = open("test-greedy/" + filename +".in", "r")
-    valores = f.readline().split(" ")
-
-    s = open("test-greedy/" + filename + ".ans", "r")
-    comparar_resultado = s.readline()
-
-    n_points = int(valores[0])
-    h_max = int(valores[1])
-    alpha = int(valores[2])
-    beta = int(valores[3])
-
-    if is_valid():
-        pos_x = [0]              # X primera columna
-        pos_y = [0]              # Y segunda columna
-        if read_terrain():
-            #f.close # pylint dice que es innecesario ponerlo
-            #result = [0, 0]
-            #result = check_overlap_and_calculate_cost_multiple_arches()
-            #result[1] = calculate_cost_one_arch()
-
-            result = greedy(n_points, pos_x, pos_y)
-            #result = int(result)
-            if result == -1:
-                result = "impossible"
-            print(u"\n\u001b[33mResultado Calculado", result , u"\u001b[0m")
-            print(u"\u001b[32mResultado Correcto ", comparar_resultado , u"\u001b[0m\n")
-            print(u"\u001b[36m" , pos_x , u"\u001b[0m")
+    if calcular.is_valid():
+        if calcular.read_terrain(f):
+            result = greedy(calcular.get_n_points(), calcular.get_posX(), calcular.get_posY())
+            if result != "impossible" and result != -1:
+                print(int(result))
+            else:
+                print("impossible")
         else:
             print("impossible")
     else:
