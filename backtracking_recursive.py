@@ -4,7 +4,7 @@
 import os, os.path, glob
 import math
 import sys
-
+from calculate import calcul
 #comentado-print(u"\u001b[36m\nBackTracking Recursivo\n\u001b[0m")
 
 sys.setrecursionlimit(20000)
@@ -30,7 +30,7 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
 
             pos_x_a = pos_x[:i+1] # Array con las posiciones desde la a hasta la final
             pos_y_a = pos_y[:i+1]
-            aux_a = calculate_cost_one_arch(i + 1, pos_x_a, pos_y_a)
+            aux_a = calcular.calculate_cost_one_arch_backtraking(i + 1, pos_x_a, pos_y_a)
 
             #llamada recursiva con los puntos desde i al final
             pos_x_b = pos_x[i:] # Array con las posiciones desde la a hasta la final
@@ -47,7 +47,7 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
 
 
     # Calculo de costes para un solo arco
-    coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+    coste[n] = calcular.calculate_cost_one_arch_backtraking(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
 
     result = sys.maxsize
 
@@ -83,11 +83,6 @@ def rec_func(n, pos_x, pos_y): # anadir mas parametros que hagan falta
 
 
 
-
-
-
-
-
 def check_overlap_and_calculate_cost_multiple_arches():
     """Comprueba que todos los arcos posibles no interfieran con el terreno,
     funciona comprobando que los puntos no esten por encima del inicio de los arcos,
@@ -119,22 +114,6 @@ def check_overlap_and_calculate_cost_multiple_arches():
     #result_total = float(result_columns + result_distances)
     return result_total
 
-
-def calculate_cost_one_arch(n_points, pos_x, pos_y):
-    if doesnt_overlap_one_arch(n_points, pos_x, pos_y):
-        result_columns = 0
-        result_columns = float(result_columns + (h_max - int(pos_y[0])))
-        #result_columns = float(result_columns + (h_max - int(pos_y[n_points - 1])))
-        result_columns = alpha * result_columns
-
-        result_distances = 0
-        result_distances = result_distances + \
-            ((int(pos_x[-1]) - int(pos_x[0])) * (int(pos_x[-1]) - int(pos_x[0])))
-        result_distances = float(beta * result_distances)
-        result_total = float(result_columns + result_distances)
-
-        return result_total
-    return "impossible"
 
 #def doesnt_overlap_multiple_arches():
     #for i in range(0, n_points - 1):
@@ -246,6 +225,8 @@ if __name__ == "__main__":
 
     directory = "aqueductes/"
 
+    
+
     debug = True
     superDebug = True
     if superDebug == True:
@@ -282,6 +263,8 @@ if __name__ == "__main__":
                 h_max = int(valores[1])
                 alpha = int(valores[2])
                 beta = int(valores[3])
+
+                calcular = calcul(n_points,h_max,alpha,beta)
 
                 if is_valid():
                     pos_x = [0]              # X primera columna
@@ -350,6 +333,8 @@ if __name__ == "__main__":
     h_max = int(valores[1])
     alpha = int(valores[2])
     beta = int(valores[3])
+
+    calcular = calcul(n_points,h_max,alpha,beta)
 
     if is_valid():
         pos_x = [0]              # X primera columna
