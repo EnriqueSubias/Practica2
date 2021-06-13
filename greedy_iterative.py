@@ -29,7 +29,7 @@ def greedy_iterative(n, pos_x, pos_y):
     # x     i-4
     while i < n - 1:
         x = i + 1
-        menor_coste = calculate_cost_arch(n, pos_x, pos_y, i, x)
+        menor_coste = calculate_cost_arch(pos_x, pos_y, i, x)
         if menor_coste == "impossible":
             menor_coste = -1
         x_menor_coste = x
@@ -37,7 +37,7 @@ def greedy_iterative(n, pos_x, pos_y):
         #print("POS X: ", x)
         while x < len(pos_x) - 1:
             x += 1
-            aux = calculate_cost_arch(n, pos_x, pos_y, i, x)
+            aux = calculate_cost_arch(pos_x, pos_y, i, x)
             #print("POS X: ", x)
             if aux == "impossible":
                 continue
@@ -64,8 +64,8 @@ def greedy_iterative(n, pos_x, pos_y):
     return coste_total
 
 
-def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
-    if doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
+def calculate_cost_arch(pos_x, pos_y, start, end):
+    if doesnt_overlap_one_arch(pos_x, pos_y, start, end):
         result_columns = 0
         result_columns = float(result_columns +
                                (calcular.get_h_max() - int(pos_y[start])))
@@ -83,24 +83,16 @@ def calculate_cost_arch(n_points, pos_x, pos_y, start, end):
     return "impossible"
 
 
-def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
+def doesnt_overlap_one_arch(pos_x, pos_y, start, end):
     """Comprueba que ningun punto del terreno interfiera con la semicircunferencia de cada arco,
     si el angulo es mayor de 90 grados, el punto del terreno no se solapa con el
     aqueducto, pero si es menor de 90 grados, significa que si que interfiere."""
+    
     terrain_point = [0, 0]
     d_horizontal = pos_x[end] - pos_x[start]
     # center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total,
     # tenemos que calcular la mitad del ancho de donde vaya el arco
     center_y = calcular.get_h_max() - (d_horizontal / 2)
-
-    # print("-------Puntos-------")
-
-    # print(pos_x)
-    # print(pos_y)
-
-    # print(n_points)
-    # print(h_max, "max =",max(pos_x), pos_x[-1], center_y)
-    # print("--------------------")
 
     point1 = [0, 0]
     point1[0] = float(pos_x[start])
@@ -109,7 +101,7 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
     point2 = [0, 0]
     point2[0] = float(pos_x[end])
     point2[1] = center_y
-
+    
     for i in range(start, end):
         if center_y < int(pos_y[i]):
             terrain_point[0] = int(pos_x[i])
@@ -118,8 +110,6 @@ def doesnt_overlap_one_arch(n_points, pos_x, pos_y, start, end):
                                     d_horizontal)
             if angle < 90:
                 return False
-            # else:
-            # seguir dando vueltas
     return True
 
 

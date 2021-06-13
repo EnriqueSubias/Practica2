@@ -70,7 +70,9 @@ class Calcul:
         point2[0] = float(pos_x[end])
         point2[1] = center_y
 
-        for i in range(start, len(pos_x)):
+        #print(start,end,len(pos_x))
+
+        for i in range(start, end):
             if center_y < int(pos_y[i]):
                 terrain_point[0] = int(pos_x[i])
                 terrain_point[1] = int(pos_y[i])
@@ -78,8 +80,6 @@ class Calcul:
                                              d_horizontal)
                 if angle < 90:
                     return False
-                # else:
-                # seguir dando vueltas
         return True
 
     @classmethod
