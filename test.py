@@ -6,9 +6,13 @@ import os.path
 import sys
 import subprocess
 
+todo_bien = True
+count_acierto = 0
+count_fallo = 0
+
 if __name__ == "__main__":
 
-    for alg in range(3):
+    for alg in range(6):
 
         ALGORITHM = alg
 
@@ -67,7 +71,7 @@ if __name__ == "__main__":
                             "secret-26.in",
                             "secret-27.in",
                             "secret-28.in",
-                    ):
+                    ):  # Lista de archivos a omitir
                         continue
 
                 print(u"\u001b[36m-- " + FOLDER + filename + u" --\u001b[0m\n")
@@ -92,32 +96,49 @@ if __name__ == "__main__":
                 resultado_correcto = s.readline()
 
                 if result == "":
-                    print(u"\u001b[31mNo se ha obtenido un resultado, programa sin print\u001b[0m\n")
-                    sys.exit(0)
+                    print(
+                        u"\u001b[31mNo se ha obtenido un resultado, programa sin print\u001b[0m\n"
+                    )
 
                 if result == "impossible":
                     print(u"\u001b[33mResultado Calculado", "impossible",
-                        u"\u001b[0m")
+                          u"\u001b[0m")
                     if resultado_correcto.replace("\n", "") == "impossible":
                         print(u"\u001b[34mResultado Correcto ", "impossible",
-                            u"\u001b[0m")
+                              u"\u001b[0m")
+                        count_acierto += 1
                         print(u"\n\u001b[32mBIEN\u001b[0m\n")
                         continue
 
                     print(u"\u001b[34mResultado Correcto ", resultado_correcto,
-                        u"\u001b[0m")
+                          u"\u001b[0m")
+                    todo_bien = False
+                    count_fallo += 1
                     print(u"\u001b[31m#### MAL ####\u001b[0m\n")
                     continue
 
                 print(u"\u001b[33mResultado Calculado", result, u"\u001b[0m")
                 print(u"\u001b[34mResultado Correcto ", resultado_correcto,
-                    u"\u001b[0m")
+                      u"\u001b[0m")
 
-                if alg != 2:
-                    difference = int(result) - int(resultado_correcto)
-                    if difference == 0:
-                        print(u"\u001b[32mBIEN\u001b[0m\n")
-                        continue
+                difference = int(result) - int(resultado_correcto)
+                if difference == 0:
+                    count_acierto += 1
+                    print(u"\u001b[32mBIEN\u001b[0m\n")
+                    continue
 
-                    print(u"\u001b[31m#### MAL #### diferencia de:" + difference +
-                        "\u001b[0m\n")
+                todo_bien = False
+                count_fallo += 1
+                print(u"\u001b[31m#### MAL #### diferencia de:" +
+                      str(difference) + "\u001b[0m\n")
+    if todo_bien:
+        print(
+            u"\u001b[32m¡Enhorabuena, todos los resultados han dado correctamente!\u001b[0m\n"
+        )
+
+    else:
+        print(u"\u001b[31mVaya, algún resultado ha fallado :(\u001b[0m\n")
+
+    print(
+        str(count_acierto) + " aciertos y " + str(count_fallo) +
+        " fallos de " + str(count_acierto + count_fallo) + " pruebas\n")

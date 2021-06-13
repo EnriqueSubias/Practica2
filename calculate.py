@@ -20,6 +20,7 @@ class Calcul:
             result_columns = 0
             result_columns = float(result_columns +
                                    (self.h_max - int(pos_y[start])))
+            # Esta es la diferencia con el greedy
             # result_columns = float(result_columns + (self.h_max - int(pos_y[end])))
             result_columns = self.alpha * result_columns
 
@@ -34,7 +35,7 @@ class Calcul:
 
     def calculate_cost_greedy(self, pos_x, pos_y, start, end):
         """A"""
-        if self.doesnt_overlap_one_arch(pos_x, pos_y, start, end):
+        if self.doesnt_overlap_one_arch_greedy(pos_x, pos_y, start, end):
             result_columns = 0
             result_columns = float(result_columns +
                                    (self.h_max - int(pos_y[start])))
@@ -70,7 +71,35 @@ class Calcul:
         point2[0] = float(pos_x[end])
         point2[1] = center_y
 
-        #print(start,end,len(pos_x))
+        # Esta es la diferencia con el greedy
+        for i in range(start, len(pos_x)):
+            if center_y < int(pos_y[i]):
+                terrain_point[0] = int(pos_x[i])
+                terrain_point[1] = int(pos_y[i])
+                angle = self.calculate_angle(point1, point2, terrain_point,
+                                             d_horizontal)
+                if angle < 90:
+                    return False
+        return True
+
+    def doesnt_overlap_one_arch_greedy(self, pos_x, pos_y, start, end):
+        """Comprueba que ningun punto del terreno interfiera con la semicircunferencia de cada arco,
+        si el angulo es mayor de 90 grados, el punto del terreno no se solapa con el
+        aqueducto, pero si es menor de 90 grados, significa que si que interfiere."""
+
+        terrain_point = [0, 0]
+        d_horizontal = pos_x[end] - pos_x[start]
+        # center_y = h_max - float(max(pos_x)) / 2 # center y es la mitad del ancho total,
+        # tenemos que calcular la mitad del ancho de donde vaya el arco
+        center_y = self.h_max - (d_horizontal / 2)
+
+        point1 = [0, 0]
+        point1[0] = float(pos_x[start])
+        point1[1] = center_y
+
+        point2 = [0, 0]
+        point2[0] = float(pos_x[end])
+        point2[1] = center_y
 
         for i in range(start, end):
             if center_y < int(pos_y[i]):

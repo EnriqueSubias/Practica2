@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+
 """Programa para calcular el coste de un aqueducto en modo BackTracking Recursivo."""
 
 import sys
