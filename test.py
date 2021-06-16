@@ -12,9 +12,9 @@ count_fallo = 0
 
 if __name__ == "__main__":
 
-    for alg in range(3):
+    for alg in range(4):
 
-        ALGORITHM = alg
+        ALGORITHM = 4
 
         # 0 = Greedy Recursivo
         # 1 = Greedy Iterativo
@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
         for filename in sorted(os.listdir(FOLDER)):
             if filename.endswith(".in"):
-                if ALGORITHM == 2:
+                if ALGORITHM == 2 or ALGORITHM == 4:
                     if filename in (
                             "secret-10.in",
                             "secret-13.in",

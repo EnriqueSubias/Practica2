@@ -14,6 +14,7 @@ def dynamic_programming():
 
 def dynamic_programming_iterative(n_points, pos_x, pos_y):
     """Funcion Iterativa"""
+    
     return "impossible" # Por acabar
 
 
