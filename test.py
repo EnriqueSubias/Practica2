@@ -12,7 +12,7 @@ count_fallo = 0
 
 if __name__ == "__main__":
 
-    for alg in range(6):
+    for alg in range(3):
 
         ALGORITHM = alg
 
@@ -77,17 +77,17 @@ if __name__ == "__main__":
                 print(u"\u001b[36m-- " + FOLDER + filename + u" --\u001b[0m\n")
 
                 if ALGORITHM == 0:
-                    command = "./greedy_recursive.py " + FOLDER + filename
+                    command = "greedy_recursive.py " + FOLDER + filename # poner ./ para linux
                 if ALGORITHM == 1:
-                    command = "./greedy_iterative.py " + FOLDER + filename
+                    command = "greedy_iterative.py " + FOLDER + filename # poner ./ para linux
                 if ALGORITHM == 2:
-                    command = "./backtracking_recursive.py " + FOLDER + filename
+                    command = "backtracking_recursive.py " + FOLDER + filename # poner ./ para linux
                 if ALGORITHM == 3:
-                    command = "./backtracking_iterative.py " + FOLDER + filename
+                    command = "backtracking_iterative.py " + FOLDER + filename # poner ./ para linux
                 if ALGORITHM == 4:
-                    command = "./dynamic_programming_recursive.py " + FOLDER + filename
+                    command = "dynamic_programming_recursive.py " + FOLDER + filename # poner ./ para linux
                 if ALGORITHM == 5:
-                    command = "./dynamic_programming_iterative.py " + FOLDER + filename
+                    command = "dynamic_programming_iterative.py " + FOLDER + filename # poner ./ para linux
 
                 result = subprocess.getoutput(command)
 
