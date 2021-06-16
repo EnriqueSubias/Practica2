@@ -34,11 +34,11 @@ def dynamic_programming_recursive(n_points, pos_x, pos_y,dynamic_results):
             #print(pos_x_a)
             #print(pos_y_a)
 
-            if dynamic_results[0][len(pos_y_a)] != 0:
-                aux_a = dynamic_results[0][len(pos_y_a)]
-            else:
-                aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
-                dynamic_results[0][len(pos_y_a)]= aux_a
+            #if dynamic_results[0][len(pos_y_a)] != 0:
+                #aux_a = dynamic_results[0][len(pos_y_a)]
+            #else:
+            aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
+                #dynamic_results[0][len(pos_y_a)]= aux_a
 
             # llamada recursiva con los puntos desde i al final
             pos_x_b = pos_x[
