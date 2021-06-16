@@ -1,6 +1,6 @@
 
 import random
-import aqueductes #nombre de tu fichero
+import greedy_recursive #nombre de tu fichero
 
 def soil_generator(n):
    h = random.randint(150,200)
@@ -19,9 +19,9 @@ def soil_generator(n):
 def test_aqueducte(n):
     h, alpha, beta, points = soil_generator(n)
     xs, ys = list(zip(*points)) #si a vuestra función le pasáis como paŕametros una lista con todas las X y otra lista con todas las Y, haced esto. Si no, ignorad esta línea y en lugar de xs e ys, pasáis points.
-    aqueductes.n = n #esto lo teneis que hacer si usáis variables globales en vuestro programa
-    aqueductes.h = h
-    aqueductes.calcular_cost_pont(n, h, alpha, beta, xs, ys) #nombre_programa.nombre_función, llamáis a vuestra función que calcula los costes 
+    greedy_recursive.n = n #esto lo teneis que hacer si usáis variables globales en vuestro programa
+    greedy_recursive.h = h
+    greedy_recursive.calcular_cost_pont(n, xs, ys) #nombre_programa.nombre_función, llamáis a vuestra función que calcula los costes 
 
 def calcular_temps():
     import timeit
