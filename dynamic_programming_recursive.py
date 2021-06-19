@@ -4,13 +4,16 @@
 import sys
 
 from calculate import Calcul
+
 sys.setrecursionlimit(20000)
 
 
-def dynamic_programming(dynamic_results):
+def dynamic_programming(d_results):
     """Funcion Inicial Backtracking"""
-    result = dynamic_programming_recursive(calcular.get_n_points(),
-                                    calcular.get_pos_x(), calcular.get_pos_y(),dynamic_results)
+    result = dynamic_programming_recursive(calcular.get_n_points(), 0,
+                                           calcular.get_pos_x(),
+                                           calcular.get_pos_y(),
+                                           d_results)
     if result != "impossible":
         result = int(result +
                      (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
@@ -18,7 +21,8 @@ def dynamic_programming(dynamic_results):
     return result
 
 
-def dynamic_programming_recursive(n_points, pos_x, pos_y,dynamic_results):
+def dynamic_programming_recursive(n_points, pos_inicial, pos_x, pos_y,
+                                  dynamic_results):
     """Funcion Recursiva"""
 
     coste = {}
@@ -26,25 +30,37 @@ def dynamic_programming_recursive(n_points, pos_x, pos_y,dynamic_results):
     if n_points > 2:
 
         i = 1
+        #10 - 4 = 6 original
 
         while i < n_points - 1:
+            pos_i = pos_inicial
 
             pos_x_a = pos_x[:i + 1]
             pos_y_a = pos_y[:i + 1]
+
             #print(pos_x_a)
             #print(pos_y_a)
 
-            #if dynamic_results[0][len(pos_y_a)] != 0:
-                #aux_a = dynamic_results[0][len(pos_y_a)]
-            #else:
-            aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
-                #dynamic_results[0][len(pos_y_a)]= aux_a
+            #totalposicio = calcular.get_n_points()
+            #totalposicio = totalposicio - len(pos_x_a)
+
+            pos_x_b = pos_x[i:]
+            pos_y_b = pos_y[i:]
+            pos_i += i
+
+            if dynamic_results[pos_i][pos_i + len(pos_x_b) - 1] != 0:
+                aux_a = dynamic_results[pos_i][pos_i + len(pos_x_b) - 1]
+
+            else:
+                aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
+                dynamic_results[pos_i][pos_i + len(pos_x_b) - 1] = aux_a
 
             # llamada recursiva con los puntos desde i al final
-            pos_x_b = pos_x[
-                i:]  # Array con las posiciones desde la a hasta la final
-            pos_y_b = pos_y[i:]
-            aux_b = dynamic_programming_recursive(n_points - i, pos_x_b, pos_y_b,dynamic_results)
+
+            # Array con las posiciones desde la a hasta la final
+            aux_b = dynamic_programming_recursive(n_points - i, pos_inicial,
+                                                  pos_x_b, pos_y_b,
+                                                  dynamic_results)
 
             if aux_a == "impossible" or aux_b == "impossible":
                 coste[i] = "impossible"
@@ -55,7 +71,16 @@ def dynamic_programming_recursive(n_points, pos_x, pos_y,dynamic_results):
             i += 1
 
     # Calculo de costes para un solo arco
-    coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
+    if dynamic_results[pos_inicial][pos_inicial + len(pos_x) - 1] != 0:
+        coste[n_points] = dynamic_results[pos_inicial][pos_inicial +
+                                                       len(pos_x) - 1]
+
+    else:
+        coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
+        dynamic_results[pos_inicial][pos_inicial + len(pos_x) -
+                                     1] = coste[n_points]
+
+    #coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
 
     result_ = sys.maxsize
 
@@ -89,15 +114,27 @@ if __name__ == "__main__":
 
     f = open(sys.argv[1], "r")
 
+    #f = open("aqueductes/sample-1.in", "r")
+
     calcular = Calcul(0, 0, 0, 0)  # IMPORTANTE CAMBIAR
     calcular.read_valores_aqueductor(f)
 
     if calcular.is_valid():
         if calcular.read_terrain(f):
+            numero_de_puntos = calcular.get_n_points()
 
-            rows, cols = (calcular.get_n_points(),calcular.get_n_points())
-            dynamic_results = [[0]*cols]*rows
-            print(dynamic_programming(dynamic_results))
+            results_array = []
+            for x in range(numero_de_puntos):
+                row = []
+                for j in range(numero_de_puntos):
+                    NUM = 0
+                    row.append(NUM)
+                results_array.append(row)
+
+            print(dynamic_programming(results_array))
+
+            #for i in range(calcular.get_n_points()):
+            #  print(dynamic_results[i])
 
         else:
             print("impossible")
