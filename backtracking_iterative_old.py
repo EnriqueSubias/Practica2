@@ -1,69 +1,28 @@
 #! /usr/bin/env python3
 """Programa para calcular el coste de un aqueducto en modo BackTracking Iterativo."""
 
+import os
+import os.path
+import glob
+import math
 import sys
 
 from calculate import Calcul
 
+sys.setrecursionlimit(20000)
+#solucion = 1
+
 
 def backtracking():
     """Funcion Inicial Backtracking"""
-    result = backtracking_iterative(calcular.get_n_points(),
-                                    calcular.get_pos_x(), calcular.get_pos_y())
-    if result != "impossible":
-        result = int(result +
-                     (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
-                     calcular.get_alpha())
+    result = "impossible"  # Por acabar
+    #result = backtracking_iterative(calcular.get_n_points(), calcular.get_pos_x(), calcular.get_pos_y())
     return result
 
-def iterative():
 
-    while(n_posiciones):
+def backtracking_iterative(n, pos_x, pos_y):
+    """Funcion Recursiva"""
 
-        while():
-
-            #hacer un arco de longitud i
-            #calculamos su coste
-            
-            #añadimos al stack punto inicio [i], punto final [-1]
-
-            posicion_inicial = posicion_n
-
-                if (punto_inicio == punto_final):
-                    #sacar del stack y calcular costes
-
-
-    i++
-
-
-
-    1 Arco 
-        1 Arco 
-            1 Arco 
-                1 Arco 
-                    1 Arco      [Posibilidad 1]
-                    
-                2 Arco          [Posibilidad 2]
-
-            2 Arco
-                    1 Arco      [Posibilidad 3]
-
-            3 Arco              [Posibilidad 4]
-
-        2 Arco
-                1 Arco
-                    1 Arco      [Posibilidad 5]
-        2 Arco
-                2 Arco          [Posibilidad 6]
-        3 Arco      
-                    1 Arco      [Posibilidad 7]
-                    
-        4 Arco                  [Posibilidad 8]
-
-
-                
-def backtracking_iterative(n_points, pos_x, pos_y):
-    """Funcion Iterativa"""
     coste = {}
 
     #if calcular.get_n_points() > 2:
@@ -121,8 +80,24 @@ def backtracking_iterative(n_points, pos_x, pos_y):
             coste[i] = aux_a + aux_b
         i += 1
 
-    
-    result = min(coste)
+    # Calculo de costes para un solo arco
+    #coste[n] = calculate_cost_one_arch(n, pos_x,  pos_y) # dos puntos del terreno y la altura máxima
+
+    result = sys.maxsize
+
+    all_impossible = True
+    for x in coste:
+        if coste[x] != "impossible":
+            all_impossible = False
+            break
+
+    if all_impossible:
+        return "impossible"
+
+    for k in coste:
+        if coste[k] != "impossible":
+            if coste[k] < result:
+                result = coste[k]
     return result
 
 

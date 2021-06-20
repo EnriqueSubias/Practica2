@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 """Programa para calcular el coste de un aqueducto en modo BackTracking Recursivo."""
 
 import sys
@@ -37,7 +36,8 @@ def backtracking_recursive(n_points, pos_x, pos_y):
             aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
 
             # llamada recursiva con los puntos desde i al final
-            pos_x_b = pos_x[i:]  # Array con las posiciones desde la a hasta la final
+            pos_x_b = pos_x[
+                i:]  # Array con las posiciones desde la a hasta la final
             pos_y_b = pos_y[i:]
             aux_b = backtracking_recursive(n_points - i, pos_x_b, pos_y_b)
 
