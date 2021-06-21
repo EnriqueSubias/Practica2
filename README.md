@@ -6,6 +6,7 @@ Práctica 2 de Algorítmica y Complejidad
 El Greddy es un algoritmo que busca el coste minimo actual independientemente si da una solución mínima o correcta. En este caso sobre el problema de la construción de un aqueducto cuando queramos construir un arco tendremos que precalcular los costes para todos los tamaños de arco desde un mismo punto de inicio, y elegir el de menor coste, en la mayoria de casos el menor coste sera el de un arco entre 2 puntos, a no ser que la altura máxima sea muy elevada. Según el camino que elijamos podemos llegar a un punto en el que ya no podemos poner ningun arco mas ya que hemos elejido el minimo siempre y nos lleva a un camino imposible, por eso en algunas ocasiones el resultado nos da imposible, aunque en realidad hay un resultado correcto.
 ## Greddy Recursivo
 Uso:
+
     $ ./greedy_recursive.py <fitxer entrada>
 ### Costes Teóricos Greddy Recursivo
 Coste Teorico del Greddy: El coste dependerá de cual sea el camino a seguir, como en la mayoria de casos hacemos arcos de 2 puntos, es decir, un solo salto, entonces el coste sera de O(n·log(n))
@@ -15,15 +16,6 @@ Coste mínimo: O(n)
 Coste máximo: O(n·log(n))
 
 numero puntos = 5
-
-max 
-    0 = 1,2,3,4,5
-    3 = 4,5
-    4 = 5
-    
-min
-    0 = 1,2,3,4,5
-    5
 
 ### Pseudocódigo y Costes Prácticos Greddy Recursivo
 
@@ -61,11 +53,11 @@ En el peor de los casos el coste seria de O(n·log(n)) sería el caso en el que 
 
 # Análisis de costes
 
-Gráfica de costes experimentales
+Grafico de Costes Practicos - Greedy Recursivo
 ![Grafico de Costes Practicos - Greedy Recursivo](images/greedy_recursive.png)
 
 # Diseño
-Dificultad y Coste del algoritmo
+Esquema del algotirmo - Greedy Recursivo
 ![Esquema del algotirmo - Greedy Recursivo](images/greedy_schematic.svg)
 
 # Implementación
@@ -75,54 +67,72 @@ greedy_iterative.py
 greedy_recursive.py
 
 # BackTraking
-El Backtraking es un algorithmo que buscar un resultado possible ,si llega un aun punto que no pueda continuar vuelve al punto anteriro i elije otro camino. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos possible para crear un aqueducto y elegir el de minimo coste.
+El Backtraking es un algorithmo de fuerza bruta que busca un resultado posible, si llega un a un punto en el que no puede continuar, vuelve al punto anterior y elije otro camino. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos posibled para crear un aqueducto y elegir el de minimo coste.
 ## BackTraking Recursivo
 Uso:
+
     $ ./backtracking_recursive.py <fitxer entrada>
 ### Costes Teóricos BackTraking Recursivo
-hay que pensar en los costes teoricos pero creo que podria ser n^n
+
+En el mejor y peor de los casos el coste sería de O(n*n), ya que comprueba todas las soluciones possibles independientemente si la primera es la mejor, necesita todas las posibilidades para determinar la de menor coste.
+
 ### Pseudocódigo y Costes Prácticos BackTraking Recursivo
 
-def backtracking_recursive(n_points, pos_x, pos_y):
+    def backtracking_recursive(n_points, pos_x, pos_y):
 
-    # si hay varios punts entrar al if para hacer todas las combinación con los diferentes puntos
+        # si hay varios punts entrar al if para hacer todas las combinación con los diferentes puntos
 
-    if numero_de_puntos > 2        # si no hay mas de 2 puntos solo tienes que calcular un salto simple
-        i=1
-        while i < numero_de_puntos - 1
-            pos_x_a = pos_x [:i +1]         # recortamos el array 
-            pos_x_y = pos_y [:i +1]         # recortamos el array 
-            
-            aux_a = calculate_cost( pos_x_a, pos_y_a, 0, -1 ) 
-            pos_x_b = pos_x[i:]         # Array con las posiciones desde la i hasta la final
-            pos_y_b = pos_y[i:]
+        if numero_de_puntos > 2        # si no hay mas de 2 puntos solo tienes que calcular un salto simple
+            i=1
+            while i < numero_de_puntos - 1
+                pos_x_a = pos_x [:i +1]         # recortamos el array 
+                pos_x_y = pos_y [:i +1]         # recortamos el array 
+                
+                aux_a = calculate_cost( pos_x_a, pos_y_a, 0, -1 ) 
+                pos_x_b = pos_x[i:]         # Array con las posiciones desde la i hasta la final
+                pos_y_b = pos_y[i:]
 
-            aux_b = backtracking_recursive(n_points - i, pos_x_b, pos_y_b) # llamamos la función recursiva para continuar probando caminos con el resto de puntos
+                aux_b = backtracking_recursive(n_points - i, pos_x_b, pos_y_b) # llamamos la función recursiva para continuar probando caminos con el resto de puntos
 
-            # si alguno de los calcualos da impossible no hace falta continuar ya que no es un camino possible
+                # si alguno de los calcualos da impossible no hace falta continuar ya que no es un camino possible
 
-            if aux_a == "impossible" or aux_b == "impossible":  
-                coste[i] = "impossible"
+                if aux_a == "impossible" or aux_b == "impossible":  
+                    coste[i] = "impossible"
 
-            else:   # en caso contrario sumamos una possible solución 
-                coste[i] = aux_a + aux_b 
+                else:   # en caso contrario sumamos una possible solución 
+                    coste[i] = aux_a + aux_b 
 
-    # calculamos la posibilidad de un solo arco desde pos_x hasta al final
+        # calculamos la posibilidad de un solo arco desde pos_x hasta al final
 
-    coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
+        coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
 
-    # si todos los resultados obtenidos son impossibl hacemos retunr impossible
+        # si todos los resultados obtenidos son impossibl hacemos retunr impossible
 
-    if all_impossible:
-        return "impossible"
+        if all_impossible:
+            return "impossible"
 
-    # cojemos el resultado que sea possible de menor coste
-    for k in coste:
-        if coste[i] != "impossible":
-            if coste[i] < result_:
-                result_ = coste[i]
+        # cojemos el resultado que sea possible de menor coste
+        for k in coste:
+            if coste[i] != "impossible":
+                if coste[i] < result_:
+                    result_ = coste[i]
 
-    return result
+        return result
+
+# Análisis de costes
+
+Grafico de Costes Practicos - Backtracking Recursivo
+![Grafico de Costes Practicos - Greedy Recursivo](images/backtracking_recursive.png)
+
+# Diseño
+Esquema del algotirmo - Backtracking Recursivo
+![Esquema del algotirmo - Greedy Recursivo](images/backtracking_schematic.svg)
+
+# Implementación
+
+backtracking_recuersive.py
+
+backtracking_iterative.py
 
 # Dynamic_Progaming
 El Dynamic Progaming es un algorithmo muy parecido al BackTraking pero en este caso guarda los costes calculados de los puntes para reutilizarlo y no volver a calcular todos los soltos possibles. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos possible para crear un aqueducto y elegir el de minimo coste.
@@ -130,7 +140,9 @@ El Dynamic Progaming es un algorithmo muy parecido al BackTraking pero en este c
 Uso:
     $ ./dynamic_Progaming_recursive.py <fitxer entrada>
 ### Costes Teóricos Dynamic_Progaming Recursivo
-hay que pensar en los costes teoricos pero creo que podria ser n^n
+
+
+
 ### Pseudocódigo y Costes Prácticos Dynamic_Progaming Recursivo
 
 def backtracking_recursive(n_points, pos_x, pos_y, costes_calculados):
