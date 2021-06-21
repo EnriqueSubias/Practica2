@@ -32,6 +32,7 @@ class Calcul:
             result_total = float(result_columns + result_distances)
             return result_total
         return "impossible"
+    
 
     def calculate_cost_greedy(self, pos_x, pos_y, start, end):
         """A"""
@@ -39,8 +40,8 @@ class Calcul:
             result_columns = 0
             result_columns = float(result_columns +
                                    (self.h_max - int(pos_y[start])))
-            result_columns = float(result_columns +
-                                   (self.h_max - int(pos_y[end])))
+            #result_columns = float(result_columns +
+            #                       (self.h_max - int(pos_y[end])))
             result_columns = self.alpha * result_columns
 
             result_distances = 0

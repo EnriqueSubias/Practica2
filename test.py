@@ -24,6 +24,7 @@ if __name__ == "__main__":
 
         # 4 = Dynamic Programming Recursivo
         # 5 = Dynamic Programing Iterativo
+
         print(u"\n\u001b[32m######################################\u001b[0m")
         if ALGORITHM == 0:
             print(u"\u001b[32m########## Greedy Recursivo ##########\u001b[0m")
@@ -127,8 +128,8 @@ if __name__ == "__main__":
                 #    print(u"\u001b[32mBIEN\u001b[0m\n")
                 #    continue
 
-                todo_bien = False
-                count_fallo += 1
+                #todo_bien = False
+                #count_fallo += 1
                 #print(u"\u001b[31m#### MAL #### diferencia de:" +
                 #      str(difference) + "\u001b[0m\n")
     if todo_bien:

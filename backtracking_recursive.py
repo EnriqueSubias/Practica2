@@ -34,6 +34,9 @@ def backtracking_recursive(n_points, pos_x, pos_y):
             pos_x_a = pos_x[:i + 1]
             pos_y_a = pos_y[:i + 1]
             aux_a = calcular.calculate_cost(pos_x_a, pos_y_a, 0, -1)
+            if aux_a == 155:
+                print(aux_a)
+                print(pos_x_a, pos_y_a)
 
             # llamada recursiva con los puntos desde i al final
             pos_x_b = pos_x[
@@ -73,16 +76,18 @@ def backtracking_recursive(n_points, pos_x, pos_y):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
-        if len(sys.argv) == 1:
-            print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
-            # Por hacer
-            sys.exit(0)
-        print(
-            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
-        sys.exit(0)
+    #if len(sys.argv) != 2:
+    #    if len(sys.argv) == 1:
+    #        print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
+    #        # Por hacer
+    #        sys.exit(0)
+    #    print(
+    #        u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+    #    sys.exit(0)
 
-    f = open(sys.argv[1], "r")
+    #f = open(sys.argv[1], "r")
+    
+    f = open("aqueductes/secret-07.in", "r")
 
     calcular = Calcul(0, 0, 0, 0)  # IMPORTANTE CAMBIAR
     calcular.read_valores_aqueductor(f)
