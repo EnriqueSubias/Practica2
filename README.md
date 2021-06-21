@@ -1,6 +1,7 @@
 # Informe Practica 2
 
 Práctica 2 de Algorítmica y Complejidad
+![Test](images/test.svg)
 
 # Greddy
 El Greddy es un algoritmo que busca el coste minimo actual independientemente si da una solución mínima o correcta. En este caso sobre el problema de la construción de un aqueducto cuando queramos construir un arco tendremos que precalcular los costes para todos los tamaños de arco desde un mismo punto de inicio, y elegir el de menor coste, en la mayoria de casos el menor coste sera el de un arco entre 2 puntos, a no ser que la altura máxima sea muy elevada. Según el camino que elijamos podemos llegar a un punto en el que ya no podemos poner ningun arco mas ya que hemos elejido el minimo siempre y nos lleva a un camino imposible, por eso en algunas ocasiones el resultado nos da imposible, aunque en realidad hay un resultado correcto.
