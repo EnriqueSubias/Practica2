@@ -2,6 +2,26 @@
 
 Práctica 2 de Algorítmica y Complejidad
 
+# Instrucciones de ejecución
+
+Para probar los algoritmos, se puede hacer mediante el comando:
+
+    $ ./test.py
+
+O bien, mediante el makefile, con los comandos:
+
+    $ make test_greedy_recursive
+		
+    $ make test_greedy_iterative
+	
+    $ make test_backtracking_recursive
+
+    $ make test_backtracking_iterative
+
+    $ make test_dynamic_programming_recursive
+	
+    $ make test_dynamic_programming_iterative
+
 # Greddy
 
 El Greddy es un algoritmo que busca el coste minimo actual independientemente si da una solución mínima o correcta. En este caso sobre el problema de la construción de un aqueducto cuando queramos construir un arco tendremos que precalcular los costes para todos los tamaños de arco desde un mismo punto de inicio, y elegir el de menor coste, en la mayoria de casos el menor coste sera el de un arco entre 2 puntos, a no ser que la altura máxima sea muy elevada. Según el camino que elijamos podemos llegar a un punto en el que ya no podemos poner ningun arco mas ya que hemos elejido el minimo siempre y nos lleva a un camino imposible, por eso en algunas ocasiones el resultado nos da imposible, aunque en realidad hay un resultado correcto.
@@ -18,8 +38,6 @@ Coste Teorico del Greddy: El coste dependerá de cual sea el camino a seguir, co
 Coste mínimo: O(n)
 
 Coste máximo: O(n·log(n))
-
-numero puntos = 5
 
 ## Pseudocódigo y Costes Prácticos Greddy Recursivo
 
