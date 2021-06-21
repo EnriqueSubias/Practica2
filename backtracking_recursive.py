@@ -6,7 +6,6 @@ import sys
 from calculate import Calcul
 
 sys.setrecursionlimit(20000)
-# solucion = 1
 
 
 def backtracking():
@@ -43,9 +42,7 @@ def backtracking_recursive(n_points, pos_x, pos_y):
 
             if aux_a == "impossible" or aux_b == "impossible":
                 coste[i] = "impossible"
-                # coste.append("impossible")
             else:
-                # pilar_contado_por_dos = (h_max - pos_y[i - 1] ) * alpha
                 coste[i] = aux_a + aux_b
             i += 1
 
@@ -70,21 +67,20 @@ def backtracking_recursive(n_points, pos_x, pos_y):
 
     return result_
 
-
 if __name__ == "__main__":
 
     if len(sys.argv) != 2:
         if len(sys.argv) == 1:
             print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
-            # Por hacer
             sys.exit(0)
         print(
-            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n"
+        )
         sys.exit(0)
 
     f = open(sys.argv[1], "r")
 
-    calcular = Calcul(0, 0, 0, 0)  # IMPORTANTE CAMBIAR
+    calcular = Calcul(0, 0, 0, 0)
     calcular.read_valores_aqueductor(f)
 
     if calcular.is_valid():
@@ -97,3 +93,4 @@ if __name__ == "__main__":
     else:
         print("impossible")
     sys.exit(0)
+    

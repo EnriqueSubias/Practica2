@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 """Greedy Iterative"""  # Coste minimo O(n^2)
 
-import math
 import sys
 
 from calculate import Calcul
@@ -12,7 +11,7 @@ def greedy():
 
     coste_total = greedy_iterative(calcular.get_n_points(),
                                    calcular.get_pos_x(), calcular.get_pos_y())
-    if coste_total != -1 and coste_total != "impossible":
+    if coste_total not in (-1, "impossible"):
         coste_total = int(coste_total)
     if coste_total == -1:
         coste_total = "impossible"
@@ -20,36 +19,38 @@ def greedy():
     return coste_total
 
 
-def greedy_iterative(n, pos_x, pos_y):
+def greedy_iterative(n_points, pos_x, pos_y):
+    """Greedy"""
+
     i = 0
     coste_total = 0
     # x_menor_coste = 0
     # Array 0-4
     # i     0-3
-    # x     i-4
-    while i < n - 1:
-        x = i + 1
-        #menor_coste = calculate_cost_arch(pos_x, pos_y, i, x)
-        menor_coste = calcular.calculate_cost_greedy(pos_x, pos_y, i, x)
+    # j     i-4
+    while i < n_points - 1:
+        j = i + 1
+        #menor_coste = calculate_cost_arch(pos_x, pos_y, i, j)
+        menor_coste = calcular.calculate_cost_greedy(pos_x, pos_y, i, j)
         if menor_coste == "impossible":
             menor_coste = -1
-        x_menor_coste = x
+        x_menor_coste = j
 
-        #print("POS X: ", x)
-        while x < len(pos_x) - 1:
-            x += 1
-            #aux = calculate_cost_arch(pos_x, pos_y, i, x)
-            aux = calcular.calculate_cost_greedy(pos_x, pos_y, i, x)
-            #print("POS X: ", x)
+        #print("POS X: ", j)
+        while j < len(pos_x) - 1:
+            j += 1
+            #aux = calculate_cost_arch(pos_x, pos_y, i, j)
+            aux = calcular.calculate_cost_greedy(pos_x, pos_y, i, j)
+            #print("POS X: ", j)
             if aux == "impossible":
                 continue
             if aux < menor_coste or menor_coste == -1:
-                x_menor_coste = x
+                x_menor_coste = j
                 menor_coste = aux
                 #print("+++++++++++")
         pilar_contado_por_dos = (calcular.get_h_max() -
                                  pos_y[x_menor_coste]) * calcular.get_alpha()
-        if menor_coste != -1 and menor_coste != "impossible":
+        if menor_coste not in (-1, "impossible"):
             coste_total += (menor_coste - pilar_contado_por_dos
                             )  # Restamos el coste de pilares duplicados
         i = x_menor_coste
@@ -59,7 +60,7 @@ def greedy_iterative(n, pos_x, pos_y):
             coste_total = "impossible"
             break
 
-    if menor_coste != -1 and menor_coste != "impossible":
+    if menor_coste not in (-1, "impossible"):
         coste_total += pilar_contado_por_dos  # Sumamos el último pilar
         #print("*****    +", pilar_contado_por_dos)
 

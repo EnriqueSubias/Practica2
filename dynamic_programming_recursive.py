@@ -12,8 +12,7 @@ def dynamic_programming(d_results):
     """Funcion Inicial Backtracking"""
     result = dynamic_programming_recursive(calcular.get_n_points(), 0,
                                            calcular.get_pos_x(),
-                                           calcular.get_pos_y(),
-                                           d_results)
+                                           calcular.get_pos_y(), d_results)
     if result != "impossible":
         result = int(result +
                      (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
@@ -30,19 +29,12 @@ def dynamic_programming_recursive(n_points, pos_inicial, pos_x, pos_y,
     if n_points > 2:
 
         i = 1
-        #10 - 4 = 6 original
 
         while i < n_points - 1:
             pos_i = pos_inicial
 
             pos_x_a = pos_x[:i + 1]
             pos_y_a = pos_y[:i + 1]
-
-            #print(pos_x_a)
-            #print(pos_y_a)
-
-            #totalposicio = calcular.get_n_points()
-            #totalposicio = totalposicio - len(pos_x_a)
 
             pos_x_b = pos_x[i:]
             pos_y_b = pos_y[i:]
@@ -57,16 +49,14 @@ def dynamic_programming_recursive(n_points, pos_inicial, pos_x, pos_y,
 
             # llamada recursiva con los puntos desde i al final
 
-            # Array con las posiciones desde la a hasta la final
+            # Array con las posiciones desde la inicial hasta la final
             aux_b = dynamic_programming_recursive(n_points - i, pos_inicial,
                                                   pos_x_b, pos_y_b,
                                                   dynamic_results)
 
             if aux_a == "impossible" or aux_b == "impossible":
                 coste[i] = "impossible"
-                # coste.append("impossible")
             else:
-                # pilar_contado_por_dos = (h_max - pos_y[i - 1] ) * alpha
                 coste[i] = aux_a + aux_b
             i += 1
 
@@ -79,8 +69,6 @@ def dynamic_programming_recursive(n_points, pos_inicial, pos_x, pos_y,
         coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
         dynamic_results[pos_inicial][pos_inicial + len(pos_x) -
                                      1] = coste[n_points]
-
-    #coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
 
     result_ = sys.maxsize
 
@@ -102,21 +90,19 @@ def dynamic_programming_recursive(n_points, pos_inicial, pos_x, pos_y,
 
 
 if __name__ == "__main__":
-
+     
     if len(sys.argv) != 2:
         if len(sys.argv) == 1:
             print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
-            # Por hacer
             sys.exit(0)
         print(
-            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n"
+        )
         sys.exit(0)
 
     f = open(sys.argv[1], "r")
 
-    #f = open("aqueductes/sample-1.in", "r")
-
-    calcular = Calcul(0, 0, 0, 0)  # IMPORTANTE CAMBIAR
+    calcular = Calcul(0, 0, 0, 0)
     calcular.read_valores_aqueductor(f)
 
     if calcular.is_valid():
@@ -133,11 +119,13 @@ if __name__ == "__main__":
 
             print(dynamic_programming(results_array))
 
+            # Imprime el array que utiliza el dynamic programming
             #for i in range(calcular.get_n_points()):
-            #  print(dynamic_results[i])
+            #  print(results_array[i])
 
         else:
             print("impossible")
     else:
         print("impossible")
     sys.exit(0)
+    

@@ -32,7 +32,7 @@ class Calcul:
             result_total = float(result_columns + result_distances)
             return result_total
         return "impossible"
-    
+
     def calculate_cost_iterative(self, pos_x, pos_y, start, end):
         """A"""
         if self.doesnt_overlap_one_arch_greedy(pos_x, pos_y, start, end):
@@ -212,3 +212,9 @@ class Calcul:
     def get_pos_y(self):
         """A"""
         return self.pos_y
+
+    def set_pos_x(self, posx):
+        self.pos_x = posx
+
+    def set_pos_y(self, posy):
+        self.pos_y = posy

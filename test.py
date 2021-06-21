@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
         for filename in sorted(os.listdir(FOLDER)):
             if filename.endswith(".in"):
-                if ALGORITHM  in (2, 3, 4, 5):
+                if ALGORITHM in (2, 3, 4, 5):
                     if filename in (
                             "secret-10.in",
                             "secret-13.in",
