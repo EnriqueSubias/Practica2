@@ -12,7 +12,7 @@ count_fallo = 0
 
 if __name__ == "__main__":
 
-    for alg in range(3, 4):
+    for alg in range(6):
 
         ALGORITHM = alg
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
         for filename in sorted(os.listdir(FOLDER)):
             if filename.endswith(".in"):
-                if ALGORITHM == 2 or ALGORITHM == 4:
+                if ALGORITHM  in (2, 3, 4, 5):
                     if filename in (
                             "secret-10.in",
                             "secret-13.in",
@@ -122,16 +122,16 @@ if __name__ == "__main__":
                 print(u"\u001b[34mResultado Correcto ", resultado_correcto,
                       u"\u001b[0m")
 
-                #difference = int(result) - int(resultado_correcto)
-                #if difference == 0:
-                #    count_acierto += 1
-                #    print(u"\u001b[32mBIEN\u001b[0m\n")
-                #    continue
+                difference = int(result) - int(resultado_correcto)
+                if difference == 0:
+                    count_acierto += 1
+                    print(u"\u001b[32mBIEN\u001b[0m\n")
+                    continue
 
-                #todo_bien = False
-                #count_fallo += 1
-                #print(u"\u001b[31m#### MAL #### diferencia de:" +
-                #      str(difference) + "\u001b[0m\n")
+                todo_bien = False
+                count_fallo += 1
+                print(u"\u001b[31m#### MAL #### diferencia de:" +
+                      str(difference) + "\u001b[0m\n")
     if todo_bien:
         print(
             u"\u001b[32m¡Enhorabuena, todos los resultados han dado correctamente!\u001b[0m\n"

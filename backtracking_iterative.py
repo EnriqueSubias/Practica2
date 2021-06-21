@@ -31,8 +31,8 @@ def backtracking_iterative(n_points, pos_x, pos_y):
     cost_aux = 0
     STACK.append([0, 0])
 
-    cost_aux = calcular.calculate_cost_greedy(pos_x, pos_y, inicial,
-                                       inicial + longitud)
+    cost_aux = calcular.calculate_cost_iterative(pos_x, pos_y, inicial,
+                                                 inicial + longitud)
     if cost_aux != "impossible":
         STACK.append([inicial + longitud, cost_aux])
 
@@ -42,8 +42,8 @@ def backtracking_iterative(n_points, pos_x, pos_y):
 
         if inicial + longitud < n_points:  # -1
 
-            cost_aux = calcular.calculate_cost_greedy(pos_x, pos_y, inicial,
-                                               inicial + longitud)
+            cost_aux = calcular.calculate_cost_iterative(
+                pos_x, pos_y, inicial, inicial + longitud)
             if cost_aux != "impossible":
                 STACK.append([inicial + longitud, coste_stack + cost_aux])
             longitud += 1
@@ -63,7 +63,8 @@ def backtracking_iterative(n_points, pos_x, pos_y):
             #inicial = new_pos
             #longitud = 1
             new_pos, coste_stack = STACK.pop()
-            cost_aux = calcular.calculate_cost_greedy(pos_x, pos_y, new_pos, -1)
+            cost_aux = calcular.calculate_cost_iterative(
+                pos_x, pos_y, new_pos, n_points - 1)
             if cost_aux != "impossible":
                 coste_total = coste_stack + cost_aux
             else:
@@ -171,7 +172,7 @@ if __name__ == "__main__":
     debug = False
 
     if debug:
-        f = open("aqueductes/sample-2.in", "r")
+        f = open("aqueductes/secret-04.in", "r")
 
     else:
         if len(sys.argv) != 2:

@@ -33,8 +33,7 @@ class Calcul:
             return result_total
         return "impossible"
     
-
-    def calculate_cost_greedy(self, pos_x, pos_y, start, end):
+    def calculate_cost_iterative(self, pos_x, pos_y, start, end):
         """A"""
         if self.doesnt_overlap_one_arch_greedy(pos_x, pos_y, start, end):
             result_columns = 0
@@ -42,6 +41,25 @@ class Calcul:
                                    (self.h_max - int(pos_y[start])))
             #result_columns = float(result_columns +
             #                       (self.h_max - int(pos_y[end])))
+            result_columns = self.alpha * result_columns
+
+            result_distances = 0
+            result_distances = result_distances + (
+                (int(pos_x[end]) - int(pos_x[start])) *
+                (int(pos_x[end]) - int(pos_x[start])))
+            result_distances = float(self.beta * result_distances)
+            result_total = float(result_columns + result_distances)
+            return result_total
+        return "impossible"
+
+    def calculate_cost_greedy(self, pos_x, pos_y, start, end):
+        """A"""
+        if self.doesnt_overlap_one_arch_greedy(pos_x, pos_y, start, end):
+            result_columns = 0
+            result_columns = float(result_columns +
+                                   (self.h_max - int(pos_y[start])))
+            result_columns = float(result_columns +
+                                   (self.h_max - int(pos_y[end])))
             result_columns = self.alpha * result_columns
 
             result_distances = 0
@@ -102,7 +120,7 @@ class Calcul:
         point2[0] = float(pos_x[end])
         point2[1] = center_y
 
-        for i in range(start, end):
+        for i in range(start, end + 1):
             if center_y < int(pos_y[i]):
                 terrain_point[0] = int(pos_x[i])
                 terrain_point[1] = int(pos_y[i])
