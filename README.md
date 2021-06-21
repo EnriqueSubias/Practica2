@@ -3,66 +3,82 @@
 Práctica 2 de Algorítmica y Complejidad
 
 # Greddy
-El Greddy es un algorithmo que busca el coste minimo actual independientemente si da una solución correcta. En este caso sobre el problema de la construción de un aqueducto cuando queramos construit un arco tendremos que precalcular los costes de quantos puntos sera el arco, en la mayoria de casos el menor coste sera de poner un arco entre 2 puntos. Segun el camino que elijamos podrems llegar a un punto que ya no podemos poner ningun arco mas ya que hemos elejido el minimo siempre y nos lleva a un camino impossible, por eso en algunas ocaciónes el resultado nos da Impossible
+El Greddy es un algoritmo que busca el coste minimo actual independientemente si da una solución mínima o correcta. En este caso sobre el problema de la construción de un aqueducto cuando queramos construir un arco tendremos que precalcular los costes para todos los tamaños de arco desde un mismo punto de inicio, y elegir el de menor coste, en la mayoria de casos el menor coste sera el de un arco entre 2 puntos, a no ser que la altura máxima sea muy elevada. Según el camino que elijamos podemos llegar a un punto en el que ya no podemos poner ningun arco mas ya que hemos elejido el minimo siempre y nos lleva a un camino imposible, por eso en algunas ocasiones el resultado nos da imposible, aunque en realidad hay un resultado correcto.
 ## Greddy Recursivo
 Uso:
-    $ ./aqueducte.py <fitxer entrada>
+    $ ./greedy_recursive.py <fitxer entrada>
 ### Costes Teóricos Greddy Recursivo
-Coste Teorico del Greddy: El coste dependera que cual sea el camino a seguir, como en la mayoria de casos hacemos arcos de 2 puntos - un solo salto entonces el coste sera de O(n*n)
+Coste Teorico del Greddy: El coste dependerá de cual sea el camino a seguir, como en la mayoria de casos hacemos arcos de 2 puntos, es decir, un solo salto, entonces el coste sera de O(n·log(n))
 
 Coste mínimo: O(n)
-Coste medio
-Coste máximo: O(n*n)
+
+Coste máximo: O(n·log(n))
+
+numero puntos = 5
+
+max 
+    0 = 1,2,3,4,5
+    3 = 4,5
+    4 = 5
+    
+min
+    0 = 1,2,3,4,5
+    5
 
 ### Pseudocódigo y Costes Prácticos Greddy Recursivo
-A
 
-Los coste practicos del greedy:
-El mejor de los casos el coste sera de O(1) ya que la al empezar el el punto 1 la mejor opción es poner solo un arco hasta el final entonces nos saltamos todos los puntos de entremedias
+Los costes prácticos del greedy:
+En el mejor de los casos el coste será de O(n) ya que al empezar en el primer punto, tras calcular el coste de todos los tamaños de arco, si la mejor opción es poner un solo arco hasta el final, entonces no tenemos que seguir haciendo llamadas recursivas.
 
-El peor de los casos el coste seria de O(n) porque al calcular el mejor coste en este caso seria salta solo un punto entonces tendramos que recorer todos los puntos del suelo uno a uno hasta llegar al final.
+En el peor de los casos el coste seria de O(n·log(n)) sería el caso en el que tras calcular todos los costes desde un punto de inicio, el de menor coste es un arco que va de un punto al siguiente, y taly como avanzamos, cada vez hay menos posibilidades a comprobar.
 
-greedy_recursive(numero_puntos, pos_x, pos_y)
-    coste_total = 0
-    if numero_puntos > 1    # para saber si estamos en el ultimo punto 
-        x = 1
-        menor_coste = calculate_cost_greedy(pos_x, pos_y, 0, x)    # desde la posición 0 hasta la x porque cuando llamamos a la función recursiva recortamos el array
+    greedy_recursive(numero_puntos, pos_x, pos_y)
+        coste_total = 0
+        if numero_puntos > 1    # para saber si estamos en el ultimo punto 
+            x = 1
+            menor_coste = calculate_cost_greedy(pos_x, pos_y, 0, x)    # desde la posición 0 hasta la x porque cuando llamamos a la función recursiva recortamos el array
 
-        while x < len(pos_x)
-            x + 1
-            aux = calculate_cost_greedy(pos_x, pos_y, 0, x) 
-            if  aux == "impossible"                                             # si da impossible no nos interesa comprar con el resultat del menor coste
-                continue
-            if aux < menor_coste
-                x_menor_coste = x                                               # x_menor_coste indica que posición del array ha sido el de menor coste para poder recortarlo
-                menor_coste = aux
-        
-        if menor_coste != "Impossible"
-            result_temp = greedy_recursive(numero_puntos - x_menor_coste,       # llamamos a la recursividad recortando el array numero_puntos donde ha sido el x de menor coste
-                                            pos_x[x_menor_coste:],              # hacemos lo mismo con los arrays de posición recordandolo igual numero_puntos
-                                             pos_y[x_menor_coste:])                                  
+            while x < len(pos_x)
+                x + 1
+                aux = calculate_cost_greedy(pos_x, pos_y, 0, x) 
+                if  aux == "impossible"                                             # si da impossible no nos interesa comprar con el resultat del menor coste
+                    continue
+                if aux < menor_coste
+                    x_menor_coste = x                                               # x_menor_coste indica que posición del array ha sido el de menor coste para poder recortarlo
+                    menor_coste = aux
+            
+            if menor_coste != "Impossible"
+                result_temp = greedy_recursive(numero_puntos - x_menor_coste,       # llamamos a la recursividad recortando el array numero_puntos donde ha sido el x de menor coste
+                                                pos_x[x_menor_coste:],              # hacemos lo mismo con los arrays de posición recordandolo igual numero_puntos
+                                                pos_y[x_menor_coste:])                                  
 
-            if result_temp == "Impossible"
-                menor_coste = "Impossible"
-            else
-                coste_total = menor_coste + result_temp
-    else
-        return coste_total
+                if result_temp == "Impossible"
+                    menor_coste = "Impossible"
+                else
+                    coste_total = menor_coste + result_temp
+        else
+            return coste_total
 
 # Análisis de costes
 
+Gráfica de costes experimentales
+![Grafico de Costes Practicos - Greedy Recursivo](greedy_recursive.png)
+
 # Diseño
 Dificultad y Coste del algoritmo
+![Esquema del algotirmo - Greedy Recursivo](greedy_esquema.png)
+
 # Implementación
 
 greedy_iterative.py
+
 greedy_recursive.py
 
 # BackTraking
 El Backtraking es un algorithmo que buscar un resultado possible ,si llega un aun punto que no pueda continuar vuelve al punto anteriro i elije otro camino. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos possible para crear un aqueducto y elegir el de minimo coste.
 ## BackTraking Recursivo
 Uso:
-    $ ./aqueducte.py <fitxer entrada>
+    $ ./backtracking_recursive.py <fitxer entrada>
 ### Costes Teóricos BackTraking Recursivo
 hay que pensar en los costes teoricos pero creo que podria ser n^n
 ### Pseudocódigo y Costes Prácticos BackTraking Recursivo
@@ -112,7 +128,7 @@ def backtracking_recursive(n_points, pos_x, pos_y):
 El Dynamic Progaming es un algorithmo muy parecido al BackTraking pero en este caso guarda los costes calculados de los puntes para reutilizarlo y no volver a calcular todos los soltos possibles. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos possible para crear un aqueducto y elegir el de minimo coste.
 ## Dynamic_Progaming Recursivo
 Uso:
-    $ ./aqueducte.py <fitxer entrada>
+    $ ./dynamic_Progaming_recursive.py <fitxer entrada>
 ### Costes Teóricos Dynamic_Progaming Recursivo
 hay que pensar en los costes teoricos pero creo que podria ser n^n
 ### Pseudocódigo y Costes Prácticos Dynamic_Progaming Recursivo
