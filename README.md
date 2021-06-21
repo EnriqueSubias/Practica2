@@ -4,11 +4,11 @@ Práctica 2 de Algorítmica y Complejidad
 
 # Greddy
 El Greddy es un algoritmo que busca el coste minimo actual independientemente si da una solución mínima o correcta. En este caso sobre el problema de la construción de un aqueducto cuando queramos construir un arco tendremos que precalcular los costes para todos los tamaños de arco desde un mismo punto de inicio, y elegir el de menor coste, en la mayoria de casos el menor coste sera el de un arco entre 2 puntos, a no ser que la altura máxima sea muy elevada. Según el camino que elijamos podemos llegar a un punto en el que ya no podemos poner ningun arco mas ya que hemos elejido el minimo siempre y nos lleva a un camino imposible, por eso en algunas ocasiones el resultado nos da imposible, aunque en realidad hay un resultado correcto.
-## Greddy Recursivo
+# Greddy Recursivo
 Uso:
 
     $ ./greedy_recursive.py <fitxer entrada>
-### Costes Teóricos Greddy Recursivo
+## Costes Teóricos Greddy Recursivo
 Coste Teorico del Greddy: El coste dependerá de cual sea el camino a seguir, como en la mayoria de casos hacemos arcos de 2 puntos, es decir, un solo salto, entonces el coste sera de O(n·log(n))
 
 Coste mínimo: O(n)
@@ -17,7 +17,7 @@ Coste máximo: O(n·log(n))
 
 numero puntos = 5
 
-### Pseudocódigo y Costes Prácticos Greddy Recursivo
+## Pseudocódigo y Costes Prácticos Greddy Recursivo
 
 Los costes prácticos del greedy:
 En el mejor de los casos el coste será de O(n) ya que al empezar en el primer punto, tras calcular el coste de todos los tamaños de arco, si la mejor opción es poner un solo arco hasta el final, entonces no tenemos que seguir haciendo llamadas recursivas.
@@ -51,16 +51,16 @@ En el peor de los casos el coste seria de O(n·log(n)) sería el caso en el que 
         else
             return coste_total
 
-# Análisis de costes
+## Análisis de costes
 
 Grafico de Costes Practicos - Greedy Recursivo
 ![Grafico de Costes Practicos - Greedy Recursivo](images/greedy_recursive.png)
 
-# Diseño
+## Diseño
 Esquema del algotirmo - Greedy Recursivo
 ![Esquema del algotirmo - Greedy Recursivo](images/greedy_schematic.svg)
 
-# Implementación
+## Implementación
 
 greedy_iterative.py
 
@@ -68,15 +68,15 @@ greedy_recursive.py
 
 # BackTraking
 El Backtraking es un algorithmo de fuerza bruta que busca un resultado posible, si llega un a un punto en el que no puede continuar, vuelve al punto anterior y elije otro camino. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos posibled para crear un aqueducto y elegir el de minimo coste.
-## BackTraking Recursivo
+# BackTraking Recursivo
 Uso:
 
     $ ./backtracking_recursive.py <fitxer entrada>
-### Costes Teóricos BackTraking Recursivo
+## Costes Teóricos BackTraking Recursivo
 
 En el mejor y peor de los casos el coste sería de O(n*n), ya que comprueba todas las soluciones possibles independientemente si la primera es la mejor, necesita todas las posibilidades para determinar la de menor coste.
 
-### Pseudocódigo y Costes Prácticos BackTraking Recursivo
+## Pseudocódigo y Costes Prácticos BackTraking Recursivo
 
     def backtracking_recursive(n_points, pos_x, pos_y):
 
@@ -119,16 +119,17 @@ En el mejor y peor de los casos el coste sería de O(n*n), ya que comprueba toda
 
         return result
 
-# Análisis de costes
+## Análisis de costes
 
 Grafico de Costes Practicos - Backtracking Recursivo
 ![Grafico de Costes Practicos - Greedy Recursivo](images/backtracking_recursive.png)
 
-# Diseño
+## Diseño
+
 Esquema del algotirmo - Backtracking Recursivo
 ![Esquema del algotirmo - Greedy Recursivo](images/backtracking_schematic.svg)
 
-# Implementación
+## Implementación
 
 backtracking_recuersive.py
 
@@ -136,17 +137,17 @@ backtracking_iterative.py
 
 # Dynamic_Progaming
 El Dynamic Progaming es un algorithmo muy parecido al BackTraking pero en este caso guarda los costes calculados de los puntes para reutilizarlo y no volver a calcular todos los costes posibles. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos posibles para crear un aqueducto y elegir el de mínimo coste.
-## Dynamic_Progaming Recursivo
+# Dynamic_Progaming Recursivo
 Uso:
 
     $ ./dynamic_Progaming_recursive.py <fitxer entrada>
-### Costes Teóricos Dynamic_Progaming Recursivo
+## Costes Teóricos Dynamic_Progaming Recursivo
 
 En el mejor y peor de los casos el coste sería de O(n*n), ya que comprueba todas las soluciones possibles independientemente si la primera es la mejor, necesita todas las posibilidades para determinar la de menor coste.
 
 El coste real será algo menor que el del backtracking, ya que hacemos muchas menos llamadas a la función de calcular coste. 
 
-### Pseudocódigo y Costes Prácticos Dynamic_Progaming Recursivo
+## Pseudocódigo y Costes Prácticos Dynamic_Progaming Recursivo
 
     def backtracking_recursive(n_points, pos_x, pos_y, pos_inicial, costes_calculados):
 
@@ -199,30 +200,23 @@ El coste real será algo menor que el del backtracking, ya que hacemos muchas me
 
         return result
 
-# Análisis de costes
+## Análisis de costes
 
 Grafico de Costes Practicos - Dynamic Progamming Recursivo
 ![Grafico de Costes Practicos - Greedy Recursivo](images/dynamic_recursive.png)
 
-# Diseño
+## Diseño
 Esquema del algotirmo - Dynamic Progamming Recursivo
 ![Esquema del algotirmo - Greedy Recursivo](images/backtracking_schematic.svg)
 
-# Implementación
+## Implementación
 
 dynamic_progamming_recursive.py
 
-dynamic_progamming_iterative.py
+dynamic_progamming_iterative.py        
 
+## Dynamic Programming Array
 
-
-
-
-
-
-        
-
-Dynamic Output Array
 Aquí podemos ver como es el array de dimensiones n * n en el que guardamos los costes intermedios.
 
         enriquesubias@MacBook-Pro Practica2 % ./dynamic_programming_recursive.py aqueductes/secret-12.in
