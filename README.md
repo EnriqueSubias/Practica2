@@ -135,68 +135,96 @@ backtracking_recuersive.py
 backtracking_iterative.py
 
 # Dynamic_Progaming
-El Dynamic Progaming es un algorithmo muy parecido al BackTraking pero en este caso guarda los costes calculados de los puntes para reutilizarlo y no volver a calcular todos los soltos possibles. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos possible para crear un aqueducto y elegir el de minimo coste.
+El Dynamic Progaming es un algorithmo muy parecido al BackTraking pero en este caso guarda los costes calculados de los puntes para reutilizarlo y no volver a calcular todos los costes posibles. En este caso al construir un aqueducto nos pide que demos el mejor coste de construción de todo el aqueducto, para eso tenemos que encontrar todos los caminos posibles para crear un aqueducto y elegir el de mínimo coste.
 ## Dynamic_Progaming Recursivo
 Uso:
+
     $ ./dynamic_Progaming_recursive.py <fitxer entrada>
 ### Costes Teóricos Dynamic_Progaming Recursivo
 
+En el mejor y peor de los casos el coste sería de O(n*n), ya que comprueba todas las soluciones possibles independientemente si la primera es la mejor, necesita todas las posibilidades para determinar la de menor coste.
 
+El coste real será algo menor que el del backtracking, ya que hacemos muchas menos llamadas a la función de calcular coste. 
 
 ### Pseudocódigo y Costes Prácticos Dynamic_Progaming Recursivo
 
-def backtracking_recursive(n_points, pos_x, pos_y, costes_calculados):
+    def backtracking_recursive(n_points, pos_x, pos_y, pos_inicial, costes_calculados):
 
-    # si hay varios punts entrar al if para hacer todas las combinación con los diferentes puntos
+        # si hay varios punts entrar al if para hacer todas las combinación con los diferentes puntos
 
-    if numero_de_puntos > 2        # si no hay mas de 2 puntos solo tienes que calcular un salto simple
-        i=1
-        while i < numero_de_puntos - 1
-            pos_x_a = pos_x [:i +1]         # recortamos el array 
-            pos_x_y = pos_y [:i +1]         # recortamos el array 
-            
-            # si en la posición [x][y] es diferente de zero es que hay algun valor calculado entonces no tenemos que volver a calcularlo solo lo cojemos
+        if numero_de_puntos > 2        # si no hay mas de 2 puntos solo tienes que calcular un salto simple
+            i=1
+            while i < numero_de_puntos - 1
+                pos_x_a = pos_x [:i +1]         # recortamos el array 
+                pos_x_y = pos_y [:i +1]         # recortamos el array 
+                
+                # si en la posición [x][y] es diferente de zero es que hay algun valor calculado entonces no tenemos que volver a calcularlo solo lo cojemos
 
-            if costes_calculados[x][y] != 0     
-                aux_a = costes_calculados[x][y]
+                if costes_calculados[x][y] != 0     
+                    aux_a = costes_calculados[x][y]
 
-            # en caso contrario hay que calcularlo por primera vez y lo guardamos en el array de calculados
+                # en caso contrario hay que calcularlo por primera vez y lo guardamos en el array de calculados
 
-            else
-                aux_a = calculate_cost( pos_x_a, pos_y_a, 0, -1 ) 
-                costes_calculados[x][y] = aux_a
+                else
+                    aux_a = calculate_cost( pos_x_a, pos_y_a, 0, -1 ) 
+                    costes_calculados[x][y] = aux_a
 
-            pos_x_b = pos_x[i:]         # Array con las posiciones desde la i hasta la final
-            pos_y_b = pos_y[i:]
+                pos_x_b = pos_x[i:]         # Array con las posiciones desde la i hasta la final
+                pos_y_b = pos_y[i:]
 
-            aux_b = backtracking_recursive(n_points - i, pos_x_b, pos_y_b) # llamamos la función recursiva para continuar probando caminos con el resto de puntos
+                aux_b = backtracking_recursive(n_points - i, pos_x_b, pos_y_b) # llamamos la función recursiva para continuar probando caminos con el resto de puntos
 
-            # si alguno de los calcualos da impossible no hace falta continuar ya que no es un camino possible
+                # si alguno de los calcualos da impossible no hace falta continuar ya que no es un camino possible
 
-            if aux_a == "impossible" or aux_b == "impossible":  
-                coste[i] = "impossible"
+                if aux_a == "impossible" or aux_b == "impossible":  
+                    coste[i] = "impossible"
 
-            else:   # en caso contrario sumamos una possible solución 
-                coste[i] = aux_a + aux_b 
+                else:   # en caso contrario sumamos una possible solución 
+                    coste[i] = aux_a + aux_b 
 
-    # calculamos la posibilidad de un solo arco desde pos_x hasta al final
+        # calculamos la posibilidad de un solo arco desde pos_x hasta al final
 
-    coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
+        coste[n_points] = calcular.calculate_cost(pos_x, pos_y, 0, -1)
 
-    # si todos los resultados obtenidos son impossibl hacemos retunr impossible
+        # si todos los resultados obtenidos son impossibl hacemos retunr impossible
 
-    if all_impossible:
-        return "impossible"
+        if all_impossible:
+            return "impossible"
 
-    # cojemos el resultado que sea possible de menor coste
-    for k in coste:
-        if coste[i] != "impossible":
-            if coste[i] < result_:
-                result_ = coste[i]
+        # cojemos el resultado que sea possible de menor coste
+        for k in coste:
+            if coste[i] != "impossible":
+                if coste[i] < result_:
+                    result_ = coste[i]
 
-    return result
+        return result
+
+# Análisis de costes
+
+Grafico de Costes Practicos - Dynamic Progamming Recursivo
+![Grafico de Costes Practicos - Greedy Recursivo](images/dynamic_recursive.png)
+
+# Diseño
+Esquema del algotirmo - Dynamic Progamming Recursivo
+![Esquema del algotirmo - Greedy Recursivo](images/backtracking_schematic.svg)
+
+# Implementación
+
+dynamic_progamming_recursive.py
+
+dynamic_progamming_iterative.py
+
+
+
+
+
+
+
+        
 
 Dynamic Output Array
+Aquí podemos ver como es el array de dimensiones n * n en el que guardamos los costes intermedios.
+
         enriquesubias@MacBook-Pro Practica2 % ./dynamic_programming_recursive.py aqueductes/secret-12.in
         3567
         [0, 361.0, 412.0, 440.0, 516.0, 520.0, 609.0, 837.0, 1181.0, 1293.0, 2165.0, 2648.0, 3724.0, 5516.0, 5633.0, 6253.0, 7044.0, 7193.0, 7605.0]
