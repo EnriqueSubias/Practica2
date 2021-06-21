@@ -12,7 +12,7 @@ count_fallo = 0
 
 if __name__ == "__main__":
 
-    for alg in range(2, 4):
+    for alg in range(3, 4):
 
         ALGORITHM = alg
 
@@ -121,16 +121,16 @@ if __name__ == "__main__":
                 print(u"\u001b[34mResultado Correcto ", resultado_correcto,
                       u"\u001b[0m")
 
-                difference = int(result) - int(resultado_correcto)
-                if difference == 0:
-                    count_acierto += 1
-                    print(u"\u001b[32mBIEN\u001b[0m\n")
-                    continue
+                #difference = int(result) - int(resultado_correcto)
+                #if difference == 0:
+                #    count_acierto += 1
+                #    print(u"\u001b[32mBIEN\u001b[0m\n")
+                #    continue
 
                 todo_bien = False
                 count_fallo += 1
-                print(u"\u001b[31m#### MAL #### diferencia de:" +
-                      str(difference) + "\u001b[0m\n")
+                #print(u"\u001b[31m#### MAL #### diferencia de:" +
+                #      str(difference) + "\u001b[0m\n")
     if todo_bien:
         print(
             u"\u001b[32m¡Enhorabuena, todos los resultados han dado correctamente!\u001b[0m\n"
