@@ -47,22 +47,18 @@ def greedy_iterative(n_points, pos_x, pos_y):
             if aux < menor_coste or menor_coste == -1:
                 x_menor_coste = j
                 menor_coste = aux
-                #print("+++++++++++")
         pilar_contado_por_dos = (calcular.get_h_max() -
                                  pos_y[x_menor_coste]) * calcular.get_alpha()
         if menor_coste not in (-1, "impossible"):
             coste_total += (menor_coste - pilar_contado_por_dos
                             )  # Restamos el coste de pilares duplicados
         i = x_menor_coste
-        #print("Posición de arco", x_menor_coste)
-        #print("POS I: ", i)
         if menor_coste == -1:
             coste_total = "impossible"
             break
 
     if menor_coste not in (-1, "impossible"):
         coste_total += pilar_contado_por_dos  # Sumamos el último pilar
-        #print("*****    +", pilar_contado_por_dos)
 
     return coste_total
 
@@ -72,7 +68,6 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         if len(sys.argv) == 1:
             print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
-            # Por hacer
             sys.exit(0)
         print(
             u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
@@ -80,7 +75,7 @@ if __name__ == "__main__":
 
     f = open(sys.argv[1], "r")
 
-    calcular = Calcul(0, 0, 0, 0)  # IMPORTANTE CAMBIAR
+    calcular = Calcul(0, 0, 0, 0)
     calcular.read_valores_aqueductor(f)
 
     if calcular.is_valid():

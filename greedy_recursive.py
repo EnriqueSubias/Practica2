@@ -13,7 +13,7 @@ def greedy():
     if coste_total not in (-1, "impossible"):
         coste_total = int(coste_total +
                           (calcular.get_h_max() - calcular.get_pos_y()[-1]) *
-                          calcular.get_alpha())  # Sumamos el último pilar
+                          calcular.get_alpha())  # Sumamos el ultimo pilar
     if coste_total == -1:
         coste_total = "impossible"
 
@@ -64,11 +64,10 @@ if __name__ == "__main__":
 
     if len(sys.argv) != 2:
         if len(sys.argv) == 1:
-            print(u"\n_points\u001b[31mIntroducir datos por teclado\u001b[0m\n_points")
-            # Por hacer
+            print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
             sys.exit(0)
         print(
-            u"\n_points\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n_points")
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
         sys.exit(0)
 
     f = open(sys.argv[1], "r")
@@ -80,7 +79,6 @@ if __name__ == "__main__":
         if calcular.read_terrain(f):
 
             print(greedy())
-
         else:
             print("impossible")
     else:

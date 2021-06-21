@@ -5,7 +5,7 @@ import random
 import timeit
 import matplotlib.pyplot as plt
 
-import dynamic_programming_recursive
+import greedy_recursive
 
 
 def soil_generator(n_points):
@@ -28,13 +28,13 @@ def test_aqueducte(n_points):
     """Test Aqueducte"""
     h_max, alpha, beta, points = soil_generator(n_points)
     x_s, y_s = list(zip(*points))
-    dynamic_programming_recursive.pos_x = x_s
-    dynamic_programming_recursive.pos_y = y_s
-    dynamic_programming_recursive.alpha = alpha
-    dynamic_programming_recursive.beta = beta
-    dynamic_programming_recursive.n_points = n_points
-    dynamic_programming_recursive.h_max = h_max
-    a = dynamic_programming_recursive.modografica()
+    greedy_recursive.pos_x = x_s
+    greedy_recursive.pos_y = y_s
+    greedy_recursive.alpha = alpha
+    greedy_recursive.beta = beta
+    greedy_recursive.n_points = n_points
+    greedy_recursive.h_max = h_max
+    a = greedy_recursive.modografica()
 
 
 def calcular_temps():

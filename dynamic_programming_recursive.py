@@ -90,14 +90,13 @@ def dynamic_programming_recursive(n_points, pos_inicial, pos_x, pos_y,
 
 
 if __name__ == "__main__":
-     
+
     if len(sys.argv) != 2:
         if len(sys.argv) == 1:
             print(u"\n\u001b[31mIntroducir datos por teclado\u001b[0m\n")
             sys.exit(0)
         print(
-            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n"
-        )
+            u"\n\u001b[31mTienes que indicar el nombre le archivo\u001b[0m\n")
         sys.exit(0)
 
     f = open(sys.argv[1], "r")
@@ -128,4 +127,3 @@ if __name__ == "__main__":
     else:
         print("impossible")
     sys.exit(0)
-    
