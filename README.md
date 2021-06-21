@@ -62,11 +62,11 @@ En el peor de los casos el coste seria de O(n·log(n)) sería el caso en el que 
 # Análisis de costes
 
 Gráfica de costes experimentales
-![Grafico de Costes Practicos - Greedy Recursivo](greedy_recursive.png)
+![Grafico de Costes Practicos - Greedy Recursivo](images/greedy_recursive.png)
 
 # Diseño
 Dificultad y Coste del algoritmo
-![Esquema del algotirmo - Greedy Recursivo](greedy_esquema.png)
+![Esquema del algotirmo - Greedy Recursivo](images/greedy_esquema.png)
 
 # Implementación
 
